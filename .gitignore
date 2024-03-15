@@ -1,2 +1,4 @@
-# ignore useless files (more will be added)
+# ignore "useless" folders and files
 .vscode/
+obj/
+bin/
