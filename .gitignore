@@ -1,5 +1,8 @@
 # ignore "useless" folders and files
 .vscode/
 .idea/
+Ultracar/.idea/
+Ultracar/.vscode/
+Ultracar/bin
 obj/
 bin/
