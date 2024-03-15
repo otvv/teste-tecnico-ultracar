@@ -24,4 +24,4 @@ Num cenário onde você possui uma oficina de manutenção de veículos e precis
 * Metodologia Code-First
 * Injeção de dependências
 
-Os requisitos detalhados do projeto estao localizados [aqui](/repo/requisitos.md).
+Os requisitos detalhados do projeto estao localizados [aqui](/Repo/Requisitos.md).
