@@ -71,5 +71,23 @@ namespace Ultracar.Controllers
       // return a one or multiple parts from stock with status code 200
       return Ok(parts);
     }
+
+    //
+
+    [HttpPut("{id}")]
+    public IActionResult UpdatePartById(int id, [FromBody] Estoque partBody)
+    { 
+      // update an specific part by its id
+      EstoqueDto editedResult = _repository.UpdatePartById(id, partBody);
+
+      // if the part body is empty return a BadRequest error.
+      if (partBody == null)
+      {
+        return BadRequest();
+      }
+
+      // return partial edited data as result with status code 200
+      return Ok(editedResult);
+    }
   }
 }

@@ -154,9 +154,9 @@ namespace Ultracar.Repository
 
     //
 
-    public OrcamentoDto UpdateOrcamentoById(int id, Orcamento orcamento)
+    public OrcamentoDto UpdateOrcamentoById(int id, Orcamento orcamentoBody)
     {   
-      if (orcamento == null)
+      if (orcamentoBody == null)
       {
         throw new InvalidOperationException("[Ultracar] - ERROR: failed to update, body is empty.");
       }
@@ -175,9 +175,9 @@ namespace Ultracar.Repository
       _context.Orcamentos.Update(updatedOrcamento);
 
       // edit quote with data received from body
-      updatedOrcamento.NumeracaoOrcamento = orcamento.NumeracaoOrcamento;
-      updatedOrcamento.NomeCliente = orcamento.NomeCliente;
-      updatedOrcamento.PlacaVeiculo = orcamento.PlacaVeiculo;
+      updatedOrcamento.NumeracaoOrcamento = orcamentoBody.NumeracaoOrcamento;
+      updatedOrcamento.NomeCliente = orcamentoBody.NomeCliente;
+      updatedOrcamento.PlacaVeiculo = orcamentoBody.PlacaVeiculo;
 
       // save changes in the data base
       _context.SaveChanges();
@@ -201,15 +201,15 @@ namespace Ultracar.Repository
 
       return result;
     }
-    public OrcamentoDto UpdateOrcamento(Orcamento orcamento)
+    public OrcamentoDto UpdateOrcamento(Orcamento orcamentoBody)
     { 
-      if (orcamento == null) 
+      if (orcamentoBody == null) 
       {
         throw new InvalidOperationException("[Ultracar] - ERROR: failed to update, body is empty.");
       }
 
       // edit an entire quote column
-      _context.Orcamentos.Update(orcamento);
+      _context.Orcamentos.Update(orcamentoBody);
 
       // save changes in the data base
       _context.SaveChanges();
@@ -218,11 +218,11 @@ namespace Ultracar.Repository
       // partialy at the moment
       OrcamentoDto result = new()
       {
-        Id = orcamento.Id,
-        NumeracaoOrcamento = orcamento.NumeracaoOrcamento,
-        NomeCliente = orcamento.NomeCliente,
-        PlacaVeiculo = orcamento.PlacaVeiculo,
-        Pecas = orcamento.Pecas?.Select(peca => new PecaDto
+        Id = orcamentoBody.Id,
+        NumeracaoOrcamento = orcamentoBody.NumeracaoOrcamento,
+        NomeCliente = orcamentoBody.NomeCliente,
+        PlacaVeiculo = orcamentoBody.PlacaVeiculo,
+        Pecas = orcamentoBody.Pecas?.Select(peca => new PecaDto
         {
           Id = peca.Id,
           NomePeca = peca.NomePeca,
@@ -234,15 +234,17 @@ namespace Ultracar.Repository
       return result;
     }
 
-    public OrcamentoDto CreateOrcamento(Orcamento orcamento)
+    //
+
+    public OrcamentoDto CreateOrcamento(Orcamento newOrcamentoBody)
     {
-      if (orcamento == null) 
+      if (newOrcamentoBody == null) 
       {
         throw new InvalidOperationException("[Ultracar] - ERROR: failed to create, body is empty.");
       }
 
       // populate quote table with body content
-      _context.Orcamentos.Add(orcamento);
+      _context.Orcamentos.Add(newOrcamentoBody);
 
       // save changes in the data base
       _context.SaveChanges();
@@ -250,11 +252,11 @@ namespace Ultracar.Repository
       // create a simple dto to display the created quote
       OrcamentoDto result = new()
       {
-        Id = orcamento.Id,
-        NumeracaoOrcamento = orcamento.NumeracaoOrcamento,
-        NomeCliente = orcamento.NomeCliente,
-        PlacaVeiculo = orcamento.PlacaVeiculo,
-        Pecas = orcamento.Pecas?.Select(peca => new PecaDto
+        Id = newOrcamentoBody.Id,
+        NumeracaoOrcamento = newOrcamentoBody.NumeracaoOrcamento,
+        NomeCliente = newOrcamentoBody.NomeCliente,
+        PlacaVeiculo = newOrcamentoBody.PlacaVeiculo,
+        Pecas = newOrcamentoBody.Pecas?.Select(peca => new PecaDto
         {
           Id = peca.Id,
           NomePeca = peca.NomePeca,
@@ -265,6 +267,8 @@ namespace Ultracar.Repository
 
       return result;
     }
+
+    //
 
     public void RemoveOrcamento(int id)
     {

@@ -13,11 +13,11 @@ namespace Ultracar.Repository
     OrcamentoDto GetOrcamentoByNumber(string orcamentoNumber); // list one quote based on its identifier number
 
     // UPDATE
-    OrcamentoDto UpdateOrcamentoById(int id, Orcamento orcamento); // update a specific quotes by its id
-    OrcamentoDto UpdateOrcamento(Orcamento orcamento); // update a quote
+    OrcamentoDto UpdateOrcamentoById(int id, Orcamento orcamentoBody); // update a specific quotes by its id
+    OrcamentoDto UpdateOrcamento(Orcamento orcamentoBody); // update a quote
 
     // CREATE
-    OrcamentoDto CreateOrcamento(Orcamento orcamento); // manually create a quote
+    OrcamentoDto CreateOrcamento(Orcamento newOrcamentoBody); // manually create a quote
 
     // DELETE
     void RemoveOrcamento(int id); // remove a quote by its id

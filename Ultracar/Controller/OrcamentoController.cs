@@ -29,7 +29,6 @@ namespace Ultracar.Controllers
       // return list of quotes with status code 200
       return Ok(orcamentos);
     }
-
     [HttpGet("{id}")]
     public IActionResult GetOrcamentoById(int id)
     {
@@ -44,7 +43,6 @@ namespace Ultracar.Controllers
       // return a single quote with status code 200
       return Ok(orcamento);
     }
-
     [HttpGet("cliente/{clientName}")]
     public IActionResult GetOrcamentoByName(string clientName)
     {
@@ -59,7 +57,6 @@ namespace Ultracar.Controllers
       // return a single or more quotes with status code 200
       return Ok(orcamentos);
     }
-
     [HttpGet("veiculo/{licensePlate}")]
     public IActionResult GetOrcamentoByLicensePlate(string licensePlate)
     {
@@ -89,14 +86,16 @@ namespace Ultracar.Controllers
       return Ok(orcamento);
     }
 
+    //
+
     [HttpPut("{id}")]
-    public IActionResult UpdateOrcamentoById(int id, [FromBody] Orcamento orcamento)
+    public IActionResult UpdateOrcamentoById(int id, [FromBody] Orcamento orcamentoBody)
     { 
       // update an entire quote by its id
-      OrcamentoDto editedResult = _repository.UpdateOrcamentoById(id, orcamento);
+      OrcamentoDto editedResult = _repository.UpdateOrcamentoById(id, orcamentoBody);
 
       // if the quote body is empty return a BadRequest error.
-      if (orcamento == null)
+      if (orcamentoBody == null)
       {
         return BadRequest();
       }
@@ -105,13 +104,13 @@ namespace Ultracar.Controllers
       return Ok(editedResult);
     }
     [HttpPut]
-    public IActionResult UpdateOrcamento([FromBody] Orcamento orcamento)
+    public IActionResult UpdateOrcamento([FromBody] Orcamento orcamentoBody)
     {  
       // update an entire quote
-      OrcamentoDto editedResult = _repository.UpdateOrcamento(orcamento);
+      OrcamentoDto editedResult = _repository.UpdateOrcamento(orcamentoBody);
 
       // if the quote body is empty return a BadRequest error.
-      if (orcamento == null)
+      if (orcamentoBody == null)
       {
         return BadRequest();
       }
@@ -120,14 +119,16 @@ namespace Ultracar.Controllers
       return Ok(editedResult);
     }
 
+    //
+
     [HttpPost]
-    public IActionResult CreateOrcamento([FromBody] Orcamento orcamento)
+    public IActionResult CreateOrcamento([FromBody] Orcamento newOrcamentoBody)
     {
       // create quote from body
-      OrcamentoDto orcamentoToCreate = _repository.CreateOrcamento(orcamento);
+      OrcamentoDto orcamentoToCreate = _repository.CreateOrcamento(newOrcamentoBody);
 
       // if the quote body is empty return a BadRequest error.
-      if (orcamento == null)
+      if (newOrcamentoBody == null)
       {
         return BadRequest();
       }
@@ -135,6 +136,8 @@ namespace Ultracar.Controllers
       // return created quote as result with status code 201
       return Created("orcamento", orcamentoToCreate);
     }
+
+    //
 
     [HttpDelete("{id}")]
     public IActionResult RemoveOrcamento(int id)
