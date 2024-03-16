@@ -12,7 +12,7 @@ using Ultracar.Context;
 namespace Ultracar.Migrations
 {
     [DbContext(typeof(UltracarDbContext))]
-    [Migration("20240316124817_InitialMigrations")]
+    [Migration("20240316142714_InitialMigrations")]
     partial class InitialMigrations
     {
         /// <inheritdoc />
