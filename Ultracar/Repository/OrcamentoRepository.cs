@@ -1,6 +1,7 @@
 using Ultracar.Dto;
 using Ultracar.Context;
 using Microsoft.EntityFrameworkCore;
+using Ultracar.Models;
 
 namespace Ultracar.Repository
 {
@@ -33,8 +34,41 @@ namespace Ultracar.Repository
             }).ToList()
         }).ToList();
 
+      if (orcamentos == null)
+      {
+        return null!;
+      }
+
       return orcamentos;
     }
-  }
 
+    public OrcamentoDto GetOrcamentoById(int id)
+    { 
+      Orcamento? orcamento = _context.Orcamentos
+      .Include(obj => obj.Pecas)
+      .FirstOrDefault(orcament => orcament.Id == id);
+
+      if (orcamento == null) 
+      {
+        return null!;
+      }
+
+      OrcamentoDto result = new()
+      {
+        Id = orcamento!.Id,
+        NumeracaoOrcamento = orcamento.NumeracaoOrcamento,
+        PlacaVeiculo = orcamento.PlacaVeiculo,
+        NomeCliente = orcamento.NomeCliente,
+        Pecas = orcamento.Pecas?.Select(peca => new PecaDto
+        {
+          Id = peca.Id,
+          NomePeca = peca.NomePeca,
+          Quantidade = peca.Quantidade,
+          PecaEntregue = peca.PecaEntregue
+        }).ToList()
+      };
+
+      return result;
+    }
+  }
 }

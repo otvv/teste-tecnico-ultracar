@@ -19,8 +19,29 @@ namespace Ultracar.Controllers
     {
       IEnumerable<OrcamentoDto>? orcamentos = _repository.GetOrcamentos();
 
-      // return list of users with status code 200
+      // if somehow the Orcamento table is empty or can't be found, return a NotFound error.
+      if (orcamentos == null) 
+      {
+        return NotFound();
+      }
+
+      // return list of orcamentos with status code 200
       return Ok(orcamentos);
+    }
+
+    [HttpGet("{id}")]
+    public IActionResult GetOrcamentoById(int id)
+    {
+      OrcamentoDto? orcamento = _repository.GetOrcamentoById(id);
+      
+      // if the specified orcamento table is empty or doesn't exist return a NotFound error.
+      if (orcamento == null)
+      {
+        return NotFound();
+      }
+
+      // return a single orcamento with status code 200
+      return Ok(orcamento);
     }
   }
 }
