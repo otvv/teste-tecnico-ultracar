@@ -2,7 +2,7 @@ using Microsoft.AspNetCore.Mvc;
 using Ultracar.Dto;
 using Ultracar.Repository;
 
-namespace Ultracar.Controllers 
+namespace Ultracar.Controllers
 {
   [ApiController]
   [Route("orcamentos")]
@@ -20,7 +20,7 @@ namespace Ultracar.Controllers
       IEnumerable<OrcamentoDto>? orcamentos = _repository.GetOrcamentos();
 
       // if somehow the Orcamento table is empty or can't be found, return a NotFound error.
-      if (orcamentos == null) 
+      if (orcamentos == null)
       {
         return NotFound();
       }
@@ -33,7 +33,7 @@ namespace Ultracar.Controllers
     public IActionResult GetOrcamentoById(int id)
     {
       OrcamentoDto? orcamento = _repository.GetOrcamentoById(id);
-      
+
       // if the specified orcamento table is empty or doesn't exist return a NotFound error.
       if (orcamento == null)
       {
@@ -42,6 +42,21 @@ namespace Ultracar.Controllers
 
       // return a single orcamento with status code 200
       return Ok(orcamento);
+    }
+
+    [HttpGet("cliente/{clientName}")]
+    public IActionResult GetOrcamentoByName(string clientName)
+    {
+      IEnumerable<OrcamentoDto>? orcamentos = _repository.GetOrcamentoByName(clientName);
+
+      // if the specified orcamento table is empty or doesn't exist return a NotFound error.
+      if (orcamentos == null)
+      {
+        return NotFound();
+      }
+
+      // return a single or more orcamentos with status code 200
+      return Ok(orcamentos);
     }
   }
 }

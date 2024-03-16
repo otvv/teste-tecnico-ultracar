@@ -41,7 +41,6 @@ namespace Ultracar.Repository
 
       return orcamentos;
     }
-
     public OrcamentoDto GetOrcamentoById(int id)
     { 
       Orcamento? orcamento = _context.Orcamentos
@@ -69,6 +68,28 @@ namespace Ultracar.Repository
       };
 
       return result;
+    }
+    public IEnumerable<OrcamentoDto> GetOrcamentoByName(string clientName)
+    {
+      List<OrcamentoDto> orcamentos = _context.Orcamentos
+        .Include(obj => obj.Pecas)
+        .Where(orc => orc.NomeCliente == clientName)
+        .Select(orcamento => new OrcamentoDto
+        {
+          Id = orcamento.Id,
+          NumeracaoOrcamento = orcamento.NumeracaoOrcamento,
+          PlacaVeiculo = orcamento.PlacaVeiculo,
+          NomeCliente = orcamento.NomeCliente,
+          Pecas = orcamento.Pecas!.Select(peca => new PecaDto
+          {
+            Id = peca.Id,
+            NomePeca = peca.NomePeca,
+            Quantidade = peca.Quantidade,
+            PecaEntregue = peca.PecaEntregue
+          }).ToList()
+        }).ToList();
+
+      return orcamentos;
     }
   }
 }
