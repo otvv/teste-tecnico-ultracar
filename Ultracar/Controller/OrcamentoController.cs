@@ -95,6 +95,12 @@ namespace Ultracar.Controllers
       // update an entire orcamento by its id
       OrcamentoDto editedResult = _repository.UpdateOrcamentoById(id, orcamento);
 
+      // if the orcamento body is empty return a BadRequest error.
+      if (orcamento == null)
+      {
+        return BadRequest();
+      }
+
       // return partial edited data as result with status code 200
       return Ok(editedResult);
     }
@@ -103,6 +109,12 @@ namespace Ultracar.Controllers
     {  
       // update an entire orcamento
       OrcamentoDto editedResult = _repository.UpdateOrcamento(orcamento);
+
+      // if the orcamento body is empty return a BadRequest error.
+      if (orcamento == null)
+      {
+        return BadRequest();
+      }
 
       // return partial edited data as result with status code 200
       return Ok(editedResult);
@@ -114,8 +126,30 @@ namespace Ultracar.Controllers
       // create orcamento from body
       OrcamentoDto orcamentoToCreate = _repository.CreateOrcamento(orcamento);
 
+      // if the orcamento body is empty return a BadRequest error.
+      if (orcamento == null)
+      {
+        return BadRequest();
+      }
+
       // return created orcamento as result with status code 201
       return Created("orcamento", orcamentoToCreate);
+    }
+
+    [HttpDelete("{id}")]
+    public IActionResult RemoveOrcamento(int id)
+    { 
+      if (id == 0)
+      { 
+        // if the user explicitly puts 0 or "nothing" as a id return a Bad Request error
+        return BadRequest();
+      }
+
+      // attempt to remove an orcamento by its id
+      _repository.RemoveOrcamento(id);
+
+      // return status code 204 (No Content) in case everything goes well
+      return NoContent();
     }
   }
 }

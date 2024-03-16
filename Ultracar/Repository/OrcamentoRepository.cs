@@ -265,5 +265,24 @@ namespace Ultracar.Repository
 
       return result;
     }
+
+    public void RemoveOrcamento(int id)
+    {
+      // find orcamento to remove by its id
+      Orcamento? orcamentoToRemove = _context.Orcamentos
+      .Include(obj => obj.Pecas)
+      .FirstOrDefault(orcament => orcament.Id == id);
+
+      if (orcamentoToRemove == null) 
+      {
+        throw new InvalidOperationException("[Ultracar] - ERROR: failed to remove, orcamento not found.");
+      }
+
+      // remove orcament 
+      _context.Orcamentos.Remove(orcamentoToRemove);
+
+      // save changes in the data base
+      _context.SaveChanges();
+    }
   }
 }

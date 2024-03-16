@@ -19,7 +19,7 @@ builder.Services.AddHttpClient();
 
 var app = builder.Build();
 
-// set default route
+// set default route status
 app.MapGet("/", () => "[Ultracar] - API Running.");
 
 // set up service provider so that info can be seeded into the DB.

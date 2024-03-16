@@ -18,5 +18,8 @@ namespace Ultracar.Repository
 
     // CREATE
     OrcamentoDto CreateOrcamento(Orcamento orcamento); // manually create an Orcamento
+
+    // DELETE
+    void RemoveOrcamento(int id); // remove an orcamento by its id
   }
 }
