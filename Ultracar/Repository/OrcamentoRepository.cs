@@ -155,7 +155,12 @@ namespace Ultracar.Repository
     //
 
     public OrcamentoDto UpdateOrcamentoById(int id, Orcamento orcamento)
-    { 
+    {   
+      if (orcamento == null)
+      {
+        throw new InvalidOperationException("[Ultracar] - ERROR: failed to update, body is empty.");
+      }
+
       // find orcamento to edit by its id
       Orcamento? updatedOrcamento = _context.Orcamentos
       .Include(obj => obj.Pecas)
@@ -200,7 +205,7 @@ namespace Ultracar.Repository
     { 
       if (orcamento == null) 
       {
-        throw new InvalidOperationException("[Ultracar] - ERROR: failed to update, orcamento not found.");
+        throw new InvalidOperationException("[Ultracar] - ERROR: failed to update, body is empty.");
       }
 
       // edit an entire orcamento column
@@ -211,6 +216,38 @@ namespace Ultracar.Repository
 
       // create a simple dto to display the changes
       // partialy at the moment
+      OrcamentoDto result = new()
+      {
+        Id = orcamento.Id,
+        NumeracaoOrcamento = orcamento.NumeracaoOrcamento,
+        NomeCliente = orcamento.NomeCliente,
+        PlacaVeiculo = orcamento.PlacaVeiculo,
+        Pecas = orcamento.Pecas?.Select(peca => new PecaDto
+        {
+          Id = peca.Id,
+          NomePeca = peca.NomePeca,
+          Quantidade = peca.Quantidade,
+          PecaEntregue = peca.PecaEntregue
+        }).ToList(),
+      };
+
+      return result;
+    }
+
+    public OrcamentoDto CreateOrcamento(Orcamento orcamento)
+    {
+      if (orcamento == null) 
+      {
+        throw new InvalidOperationException("[Ultracar] - ERROR: failed to create, body is empty.");
+      }
+
+      // populate Orcamento table with body content
+      _context.Orcamentos.Add(orcamento);
+
+      // save changes in the data base
+      _context.SaveChanges();
+
+      // create a simple dto to display the created Orcamento
       OrcamentoDto result = new()
       {
         Id = orcamento.Id,

@@ -107,5 +107,15 @@ namespace Ultracar.Controllers
       // return partial edited data as result with status code 200
       return Ok(editedResult);
     }
+
+    [HttpPost]
+    public IActionResult CreateOrcamento([FromBody] Orcamento orcamento)
+    {
+      // create orcamento from body
+      OrcamentoDto orcamentoToCreate = _repository.CreateOrcamento(orcamento);
+
+      // return created orcamento as result with status code 201
+      return Created("orcamento", orcamentoToCreate);
+    }
   }
 }

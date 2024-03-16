@@ -5,7 +5,6 @@ namespace Ultracar.Repository
 {
   public interface IOrcamentoRepository
   {
-
     // READ
     IEnumerable<OrcamentoDto> GetOrcamentos(); // list all Orcamentos
     OrcamentoDto GetOrcamentoById(int id); // list one Orcamento based on its id in the database
@@ -16,5 +15,8 @@ namespace Ultracar.Repository
     // UPDATE
     OrcamentoDto UpdateOrcamentoById(int id, Orcamento orcamento); // update a specific Orcamento by its id
     OrcamentoDto UpdateOrcamento(Orcamento orcamento); // update an Orcamento
+
+    // CREATE
+    OrcamentoDto CreateOrcamento(Orcamento orcamento); // manually create an Orcamento
   }
 }
