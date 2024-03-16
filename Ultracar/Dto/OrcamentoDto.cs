@@ -1,5 +1,3 @@
-using Ultracar.Models;
-
 namespace Ultracar.Dto 
 {
   public class OrcamentoDto 
@@ -8,7 +6,7 @@ namespace Ultracar.Dto
     public string? NumeracaoOrcamento { get; set; }
     public string? PlacaVeiculo { get; set; }
     public string? NomeCliente { get; set; }
-    public List<Peca>? Pecas { get; set; }
+    public List<PecaDto>? Pecas { get; set; }
   }
 
   public class InsertOrcamentoDto 
@@ -16,6 +14,6 @@ namespace Ultracar.Dto
     public string? NumeracaoOrcamento { get; set; }
     public string? PlacaVeiculo { get; set; }
     public string? NomeCliente { get; set; }
-    public List<Peca>? Pecas { get; set; }
+    public List<PecaDto>? Pecas { get; set; }
   }
 }

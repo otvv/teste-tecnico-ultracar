@@ -10,7 +10,6 @@ Ultracar/.idea/
 Ultracar/.vscode/
 Ultracar/bin/
 Ultracar/.env
-Ultracar/Migrations/*
 
 # (for some reason these aren't being properly excluded from the project...)
 # TODO: fix it.

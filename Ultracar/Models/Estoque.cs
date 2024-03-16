@@ -17,7 +17,7 @@ public class Estoque
   [Required]
   public string? NomePeca { get; set; }
   [Required]
-  public int Quantidade { get; set; }
+  public int EstoquePeca { get; set; }
 
   // type of the stock operation
   // could be either "InStock" or "Reserved"

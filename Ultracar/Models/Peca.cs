@@ -11,12 +11,12 @@ public class Peca
   [Required]
   public string? NomePeca { get; set; }
   [Required]
-  public int EstoquePeca { get; set; }
+  public int Quantidade { get; set; }
   public int? OrcamentoId { get; set; }
   [ForeignKey("OrcamentoId")]
-  public Orcamento? Orcamento { get; set; } // 1:1 relationship
+  public Orcamento? Orcamento { get; set; }
   public int? EstoqueId { get; set; }
   [ForeignKey("EstoqueId")]
-  public Estoque? Estoque { get; set; } // 1:1 relationship
+  public Estoque? Estoque { get; set; }
   public bool PecaEntregue { get; set; }
 }
