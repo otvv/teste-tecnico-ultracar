@@ -9,6 +9,7 @@ var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddControllers();
 builder.Services.AddScoped<IUltracarDbContext, UltracarDbContext>();
 builder.Services.AddScoped<IOrcamentoRepository, OrcamentoRepository>();
+builder.Services.AddScoped<IEstoqueRepository, EstoqueRepository>();
 
 // register database connection string
 builder.Services.AddDbContext<UltracarDbContext>(options =>

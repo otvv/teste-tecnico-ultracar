@@ -36,7 +36,7 @@ namespace Ultracar.Repository
 
       if (orcamentos == null)
       {
-        throw new InvalidOperationException("[Ultracar] - ERROR: failed to find, orcamento not found.");
+        throw new InvalidOperationException("[Ultracar] - ERROR: failed to find, quote not found.");
       }
 
       return orcamentos;
@@ -49,7 +49,7 @@ namespace Ultracar.Repository
 
       if (orcamento == null) 
       {
-        throw new InvalidOperationException("[Ultracar] - ERROR: failed to find, orcamento not found.");
+        throw new InvalidOperationException("[Ultracar] - ERROR: failed to find, quote not found.");
       }
 
       OrcamentoDto result = new()
@@ -91,7 +91,7 @@ namespace Ultracar.Repository
 
       if (orcamentos == null) 
       {
-        throw new InvalidOperationException("[Ultracar] - ERROR: failed to find, orcamento not found.");
+        throw new InvalidOperationException("[Ultracar] - ERROR: failed to find, quote not found.");
       }
 
       return orcamentos;
@@ -118,7 +118,7 @@ namespace Ultracar.Repository
 
       if (orcamentos == null) 
       {
-        throw new InvalidOperationException("[Ultracar] - ERROR: failed to find, orcamentos not found.");
+        throw new InvalidOperationException("[Ultracar] - ERROR: failed to find, quotes not found.");
       }
 
       return orcamentos;
@@ -131,7 +131,7 @@ namespace Ultracar.Repository
 
       if (orcamento == null) 
       {
-        throw new InvalidOperationException("[Ultracar] - ERROR: failed to find, orcamento not found.");
+        throw new InvalidOperationException("[Ultracar] - ERROR: failed to find, quotes not found.");
       }
 
       OrcamentoDto result = new()
@@ -161,20 +161,20 @@ namespace Ultracar.Repository
         throw new InvalidOperationException("[Ultracar] - ERROR: failed to update, body is empty.");
       }
 
-      // find orcamento to edit by its id
+      // find quote to edit by its id
       Orcamento? updatedOrcamento = _context.Orcamentos
       .Include(obj => obj.Pecas)
       .FirstOrDefault(orcament => orcament.Id == id);
 
       if (updatedOrcamento == null) 
       {
-        throw new InvalidOperationException("[Ultracar] - ERROR: failed to update, orcamento not found.");
+        throw new InvalidOperationException("[Ultracar] - ERROR: failed to update, quotes not found.");
       }
 
-      // edit orcamento
+      // edit quote
       _context.Orcamentos.Update(updatedOrcamento);
 
-      // edit orcamento with data received from body
+      // edit quote with data received from body
       updatedOrcamento.NumeracaoOrcamento = orcamento.NumeracaoOrcamento;
       updatedOrcamento.NomeCliente = orcamento.NomeCliente;
       updatedOrcamento.PlacaVeiculo = orcamento.PlacaVeiculo;
@@ -208,7 +208,7 @@ namespace Ultracar.Repository
         throw new InvalidOperationException("[Ultracar] - ERROR: failed to update, body is empty.");
       }
 
-      // edit an entire orcamento column
+      // edit an entire quote column
       _context.Orcamentos.Update(orcamento);
 
       // save changes in the data base
@@ -241,13 +241,13 @@ namespace Ultracar.Repository
         throw new InvalidOperationException("[Ultracar] - ERROR: failed to create, body is empty.");
       }
 
-      // populate Orcamento table with body content
+      // populate quote table with body content
       _context.Orcamentos.Add(orcamento);
 
       // save changes in the data base
       _context.SaveChanges();
 
-      // create a simple dto to display the created Orcamento
+      // create a simple dto to display the created quote
       OrcamentoDto result = new()
       {
         Id = orcamento.Id,
@@ -268,7 +268,7 @@ namespace Ultracar.Repository
 
     public void RemoveOrcamento(int id)
     {
-      // find orcamento to remove by its id
+      // find quote to remove by its id
       Orcamento? orcamentoToRemove = _context.Orcamentos
       .Include(obj => obj.Pecas)
       .FirstOrDefault(orcament => orcament.Id == id);

@@ -2,7 +2,7 @@ using System.ComponentModel.DataAnnotations;
 
 namespace Ultracar.Models
 {
-  // orcamento model (one-to-many db table)
+  // Orcamento model (one-to-many db table)
   public class Orcamento 
   {
     [Key]

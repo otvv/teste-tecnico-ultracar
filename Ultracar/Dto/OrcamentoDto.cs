@@ -8,12 +8,4 @@ namespace Ultracar.Dto
     public string? NomeCliente { get; set; }
     public List<PecaDto>? Pecas { get; set; }
   }
-
-  public class InsertOrcamentoDto 
-  {
-    public string? NumeracaoOrcamento { get; set; }
-    public string? PlacaVeiculo { get; set; }
-    public string? NomeCliente { get; set; }
-    public List<PecaDto>? Pecas { get; set; }
-  }
 }

@@ -6,20 +6,20 @@ namespace Ultracar.Repository
   public interface IOrcamentoRepository
   {
     // READ
-    IEnumerable<OrcamentoDto> GetOrcamentos(); // list all Orcamentos
-    OrcamentoDto GetOrcamentoById(int id); // list one Orcamento based on its id in the database
-    IEnumerable<OrcamentoDto> GetOrcamentoByName(string clientName); // list one or more Orcamentos based on the client name
-    IEnumerable<OrcamentoDto> GetOrcamentoByLicensePlate(string licensePlate); // list one or more Orcamentos based on the clients car license plate number
-    OrcamentoDto GetOrcamentoByNumber(string orcamentoNumber); // list one Orcamento based on its identifier number
+    IEnumerable<OrcamentoDto> GetOrcamentos(); // list all quotes
+    OrcamentoDto GetOrcamentoById(int id); // list one quote based on its id in the database
+    IEnumerable<OrcamentoDto> GetOrcamentoByName(string clientName); // list one or more quotes based on the client name
+    IEnumerable<OrcamentoDto> GetOrcamentoByLicensePlate(string licensePlate); // list one or more quotes based on the clients car license plate number
+    OrcamentoDto GetOrcamentoByNumber(string orcamentoNumber); // list one quote based on its identifier number
 
     // UPDATE
-    OrcamentoDto UpdateOrcamentoById(int id, Orcamento orcamento); // update a specific Orcamento by its id
-    OrcamentoDto UpdateOrcamento(Orcamento orcamento); // update an Orcamento
+    OrcamentoDto UpdateOrcamentoById(int id, Orcamento orcamento); // update a specific quotes by its id
+    OrcamentoDto UpdateOrcamento(Orcamento orcamento); // update a quote
 
     // CREATE
-    OrcamentoDto CreateOrcamento(Orcamento orcamento); // manually create an Orcamento
+    OrcamentoDto CreateOrcamento(Orcamento orcamento); // manually create a quote
 
     // DELETE
-    void RemoveOrcamento(int id); // remove an orcamento by its id
+    void RemoveOrcamento(int id); // remove a quote by its id
   }
 }
