@@ -16,9 +16,9 @@ namespace Ultracar.Repository
     List<EstoqueDto> UpdateEstoque(List<Estoque> estoqueBody); // update an entire stock
 
     // CREATE
-    // EstoqueDto AddPartInEstoque(Estoque estoque); // manually add a part in stock
+    EstoqueDto AddPartInEstoque(Estoque newPartBody); // manually add a part in stock
 
     // DELETE
-    // void RemovePartFromEstoque(int id); // remove part from stock 
+    // void RemovePartFromEstoque(int id); // removes a specific part from the stock 
   }
 }

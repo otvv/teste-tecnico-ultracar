@@ -173,5 +173,70 @@ namespace Ultracar.Repository
       // returns entire modified stock as result
       return result;
     }
+
+    //
+
+    public EstoqueDto AddPartInEstoque(Estoque newPartBody)
+    {
+      if (newPartBody == null)
+      {
+        throw new InvalidOperationException("[Ultracar] - ERROR: failed to create, body is empty.");
+      }
+
+      // check if a part with the same name already exists in the stock table
+      bool partExists = _context.Estoque.Any(e => e.NomePeca == newPartBody.NomePeca);
+
+      if (partExists)
+      {
+        throw new InvalidOperationException($"[Ultracar] - ERROR: part '{newPartBody.NomePeca}' already exists in the stock.");
+      }
+
+      // only add parts in the stock if the quantity is specified
+      if (newPartBody.EstoquePeca > 0)
+      {
+        // whenever a new part is added it will always be in stock
+        newPartBody.TipoMovimentacao = ActionTypes.InStock;
+
+        // populate quote table with body content
+        _context.Estoque.Add(newPartBody);
+
+        // save changes in the data base
+        _context.SaveChanges();
+
+        // create a simple dto to display the created quote
+        EstoqueDto result = new()
+        {
+          Id = newPartBody.Id,
+          NomePeca = newPartBody.NomePeca,
+          EstoquePeca = newPartBody.EstoquePeca,
+          TipoMovimentacao = newPartBody.TipoMovimentacao,
+        };
+        
+        return result;
+      }
+      else // if the api user doesnt provide a valid quantity 
+      {
+        // the api will assume that the user is trying to add one part to the stock 
+        newPartBody.EstoquePeca = 1;
+
+        // whenever a new part is added it will always be in stock
+        newPartBody.TipoMovimentacao = ActionTypes.InStock;
+
+        // populate quote table with body content
+        _context.Estoque.Add(newPartBody);
+
+        // save changes in the data base
+        _context.SaveChanges();
+
+        // dto result
+        return new()
+        {
+          Id = newPartBody.Id,
+          NomePeca = newPartBody.NomePeca,
+          EstoquePeca = 1,
+          TipoMovimentacao = newPartBody.TipoMovimentacao,
+        };
+      }
+    }
   }
 }

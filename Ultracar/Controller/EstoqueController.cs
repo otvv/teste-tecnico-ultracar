@@ -104,5 +104,17 @@ namespace Ultracar.Controllers
       // return partial edited data as result with status code 200
       return Ok(editedResult);
     }
+
+    //
+
+    [HttpPost]
+    public IActionResult AddPartInEstoque([FromBody] Estoque newPartBody)
+    {
+      // create quote from body
+      EstoqueDto partToCreate = _repository.AddPartInEstoque(newPartBody);
+
+      // return created quote as result with status code 201
+      return Created("estoque", partToCreate);
+    }
   }
 }
