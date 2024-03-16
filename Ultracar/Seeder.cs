@@ -1,27 +1,43 @@
 using Ultracar.Context;
 using Ultracar.Models;
 
-public class Seeder
+namespace Ultracar
 {
-  public static void Initialize(UltracarDbContext context)
+  public class Seeder
   {
-    // check if the database has been seeded
-    // if so, dont do anything
-    if (context.Orcamentos.Any()) 
-    { 
-      return;
-    }
-
-    // seed "orcamentos" table
-    Orcamento[] orcamentos = new[]
+    public static void Initialize(UltracarDbContext context)
     {
-      new Orcamento { NumeracaoOrcamento = "112", PlacaVeiculo = "ABC1234", NomeCliente = "John Doe" },
-      new Orcamento { NumeracaoOrcamento = "223", PlacaVeiculo = "XYZ5678", NomeCliente = "Jane Smith" },
-    };
+      // check if the database has been seeded
+      // if so, dont do anything
+      if (context.Orcamentos.Any())
+      {
+        return;
+      }
 
-    context.Orcamentos.AddRange(orcamentos);
-    
-    // save changes in the DB
-    context.SaveChanges();
+      Orcamento[] orcamentos =
+      {
+        new() { Id = 1, NumeracaoOrcamento = "112", PlacaVeiculo = "ABC1234", NomeCliente = "John Doe" },
+        new() { Id = 2, NumeracaoOrcamento = "223", PlacaVeiculo = "XYZ5678", NomeCliente = "Jane Smith" }
+      };
+
+      Peca[] pecas =
+      {
+        new() { NomePeca = "Peca1", EstoquePeca = 10, OrcamentoId = 1, EstoqueId = 1, PecaEntregue = false },
+        new() { NomePeca = "Peca2", EstoquePeca = 20, OrcamentoId = 2, EstoqueId = 2, PecaEntregue = true }
+      };
+
+      Estoque[] estoque =
+      {
+        new() { NomePeca = "Peca1", Quantidade = 100, TipoMovimentacao = ActionTypes.InStock },
+        new() { NomePeca = "Peca2", Quantidade = 200, TipoMovimentacao = ActionTypes.Reserved }
+      };
+
+      context.Pecas.AddRange(pecas);
+      context.Estoque.AddRange(estoque);
+      context.Orcamentos.AddRange(orcamentos);
+
+      // save changes in DB
+      context.SaveChanges();
+    }
   }
 }

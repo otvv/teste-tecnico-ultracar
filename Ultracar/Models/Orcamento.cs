@@ -14,10 +14,5 @@ namespace Ultracar.Models
     [Required]
     public string? NomeCliente { get; set; }
     public List<Peca>? Pecas { get; set; }
-
-    public Orcamento()
-    {
-      Pecas = new List<Peca>();
-    }
   }
 } 

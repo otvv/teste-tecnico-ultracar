@@ -30,11 +30,9 @@ namespace Ultracar.Migrations
 
                     NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
 
-                    b.Property<DateTime>("DataMovimentacao")
-                        .HasColumnType("timestamp with time zone");
-
-                    b.Property<int>("PecaId")
-                        .HasColumnType("integer");
+                    b.Property<string>("NomePeca")
+                        .IsRequired()
+                        .HasColumnType("text");
 
                     b.Property<int>("Quantidade")
                         .HasColumnType("integer");
@@ -43,8 +41,6 @@ namespace Ultracar.Migrations
                         .HasColumnType("integer");
 
                     b.HasKey("Id");
-
-                    b.HasIndex("PecaId");
 
                     b.ToTable("Estoque");
                 });
@@ -82,8 +78,8 @@ namespace Ultracar.Migrations
 
                     NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
 
-                    b.Property<bool>("Entregue")
-                        .HasColumnType("boolean");
+                    b.Property<int?>("EstoqueId")
+                        .HasColumnType("integer");
 
                     b.Property<int>("EstoquePeca")
                         .HasColumnType("integer");
@@ -95,29 +91,29 @@ namespace Ultracar.Migrations
                     b.Property<int?>("OrcamentoId")
                         .HasColumnType("integer");
 
+                    b.Property<bool>("PecaEntregue")
+                        .HasColumnType("boolean");
+
                     b.HasKey("Id");
+
+                    b.HasIndex("EstoqueId");
 
                     b.HasIndex("OrcamentoId");
 
                     b.ToTable("Pecas");
                 });
 
-            modelBuilder.Entity("Ultracar.Models.Estoque", b =>
-                {
-                    b.HasOne("Ultracar.Models.Peca", "Peca")
-                        .WithMany()
-                        .HasForeignKey("PecaId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("Peca");
-                });
-
             modelBuilder.Entity("Ultracar.Models.Peca", b =>
                 {
+                    b.HasOne("Ultracar.Models.Estoque", "Estoque")
+                        .WithMany()
+                        .HasForeignKey("EstoqueId");
+
                     b.HasOne("Ultracar.Models.Orcamento", "Orcamento")
                         .WithMany("Pecas")
                         .HasForeignKey("OrcamentoId");
+
+                    b.Navigation("Estoque");
 
                     b.Navigation("Orcamento");
                 });

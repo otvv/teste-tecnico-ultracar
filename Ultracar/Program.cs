@@ -1,4 +1,5 @@
 using Microsoft.EntityFrameworkCore;
+using Ultracar;
 using Ultracar.Context;
 using Ultracar.Repository;
 
@@ -18,21 +19,22 @@ builder.Services.AddHttpClient();
 
 var app = builder.Build();
 
+// set default route
+app.MapGet("/", () => "[Ultracar] - API Running.");
+
+// set up service provider so that info can be seeded into the DB.
+var serviceProvider = app.Services;
+var scope = serviceProvider.CreateScope();
+var context = scope.ServiceProvider.GetRequiredService<UltracarDbContext>();
+
 // configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())
 {
-    app.UseDeveloperExceptionPage();
+	app.UseDeveloperExceptionPage();
+
+	// initialize database seeder (only in dev environments)
+	Seeder.Initialize(context);
 }
-
-// set default route
-app.MapGet("/", () => "[ultracar] - api initialized");
-
-// set up service provider so we can Seed info into the DB.
-var serviceProvider = app.Services;
-var context = serviceProvider.CreateScope().ServiceProvider.GetRequiredService<UltracarDbContext>();
-
-// initialize database seeder class
-Seeder.Initialize(context);
 
 app.UseHttpsRedirection();
 app.UseRouting();

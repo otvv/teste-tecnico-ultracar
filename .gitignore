@@ -1,8 +1,22 @@
-# ignore "useless" folders and files
+# global files to exclude
 .vscode/
 .idea/
-Ultracar/.idea/
-Ultracar/.vscode/
-Ultracar/bin
 obj/
 bin/
+.env
+
+# project related folders and files to exclude
+Ultracar/.idea/
+Ultracar/.vscode/
+Ultracar/bin/
+Ultracar/.env
+Ultracar/Migrations/*
+
+# (for some reason these aren't being properly excluded from the project...)
+# TODO: fix it.
+Ultracar/obj/
+Ultracar/obj/Debug/
+Ultracar/obj/Debug/net6.0/*
+Ultracar/obj/Debug/net8.0/*
+Ultracar/obj/Release/net8.0/*
+Ultracar/obj/Release/net6.0/*

@@ -14,8 +14,7 @@ namespace Ultracar.Controllers
       _repository = repository;
     }
 
-    //
-
+    [HttpGet]
     public IActionResult GetOrcamentos()
     {
       IEnumerable<OrcamentoDto>? orcamentos = _repository.GetOrcamentos();

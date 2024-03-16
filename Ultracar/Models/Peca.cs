@@ -15,5 +15,8 @@ public class Peca
   public int? OrcamentoId { get; set; }
   [ForeignKey("OrcamentoId")]
   public Orcamento? Orcamento { get; set; } // 1:1 relationship
-  public bool Entregue { get; set; }
+  public int? EstoqueId { get; set; }
+  [ForeignKey("EstoqueId")]
+  public Estoque? Estoque { get; set; } // 1:1 relationship
+  public bool PecaEntregue { get; set; }
 }
