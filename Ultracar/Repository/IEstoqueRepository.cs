@@ -12,6 +12,13 @@ namespace Ultracar.Repository
     IEnumerable<EstoqueDto> GetPartsByState(ActionTypes state); // list one or multiple parts in stock by its state (reserved or in stock)
 
     // UPDATE
-    EstoqueDto UpdatePartById(int id, Estoque estoque); // update a part in stock by its id
+    EstoqueDto UpdatePartById(int id, Estoque partBody); // update a part in stock by its id
+    List<EstoqueDto> UpdateEstoque(List<Estoque> estoqueBody); // update an entire stock
+
+    // CREATE
+    // EstoqueDto AddPartInEstoque(Estoque estoque); // manually add a part in stock
+
+    // DELETE
+    // void RemovePartFromEstoque(int id); // remove part from stock 
   }
 }

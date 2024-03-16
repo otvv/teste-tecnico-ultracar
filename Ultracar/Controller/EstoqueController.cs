@@ -77,14 +77,29 @@ namespace Ultracar.Controllers
     [HttpPut("{id}")]
     public IActionResult UpdatePartById(int id, [FromBody] Estoque partBody)
     { 
-      // update an specific part by its id
-      EstoqueDto editedResult = _repository.UpdatePartById(id, partBody);
-
       // if the part body is empty return a BadRequest error.
       if (partBody == null)
       {
         return BadRequest();
       }
+
+      // update an specific part by its id
+      EstoqueDto editedResult = _repository.UpdatePartById(id, partBody);
+
+      // return partial edited data as result with status code 200
+      return Ok(editedResult);
+    }
+    [HttpPut]
+    public IActionResult UpdateEstoque([FromBody] List<Estoque> estoqueBody)
+    {
+      // if the quote body is empty return a BadRequest error.
+      if (estoqueBody == null)
+      {
+        return BadRequest();
+      }
+
+      // update an entire quote
+      List<EstoqueDto> editedResult = _repository.UpdateEstoque(estoqueBody);
 
       // return partial edited data as result with status code 200
       return Ok(editedResult);

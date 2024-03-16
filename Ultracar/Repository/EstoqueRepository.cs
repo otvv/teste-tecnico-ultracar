@@ -134,5 +134,44 @@ namespace Ultracar.Repository
 
       return result;
     }
+    public List<EstoqueDto> UpdateEstoque(List<Estoque> estoqueBody)
+    { 
+      if (estoqueBody == null) 
+      {
+        throw new InvalidOperationException("[Ultracar] - ERROR: failed to update, body is empty.");
+      }
+
+      // create dummy list to be populated later
+      List<EstoqueDto> result = [];
+
+      // iterate over body to add parts one at a time in a dummy dto list
+      foreach (Estoque? estoque in estoqueBody)
+      {
+        if (estoque == null)
+        {
+          throw new InvalidOperationException("[Ultracar] - ERROR: failed to update, table is empty.");
+        }
+
+        // edit an entire stock column
+        _context.Estoque.Update(estoque);
+
+        EstoqueDto partInStock = new()
+        {
+          Id = estoque.Id,
+          NomePeca = estoque.NomePeca,
+          EstoquePeca = estoque.EstoquePeca,
+          TipoMovimentacao = estoque.TipoMovimentacao,
+        };
+
+        // populate result list
+        result.Add(partInStock);
+      }
+
+      // save changes in the data base
+      _context.SaveChanges();
+
+      // returns entire modified stock as result
+      return result;
+    }
   }
 }

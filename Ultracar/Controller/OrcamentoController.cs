@@ -106,14 +106,14 @@ namespace Ultracar.Controllers
     [HttpPut]
     public IActionResult UpdateOrcamento([FromBody] Orcamento orcamentoBody)
     {  
-      // update an entire quote
-      OrcamentoDto editedResult = _repository.UpdateOrcamento(orcamentoBody);
-
       // if the quote body is empty return a BadRequest error.
       if (orcamentoBody == null)
       {
         return BadRequest();
       }
+
+      // update an entire quote
+      OrcamentoDto editedResult = _repository.UpdateOrcamento(orcamentoBody);
 
       // return partial edited data as result with status code 200
       return Ok(editedResult);
@@ -124,14 +124,14 @@ namespace Ultracar.Controllers
     [HttpPost]
     public IActionResult CreateOrcamento([FromBody] Orcamento newOrcamentoBody)
     {
-      // create quote from body
-      OrcamentoDto orcamentoToCreate = _repository.CreateOrcamento(newOrcamentoBody);
-
       // if the quote body is empty return a BadRequest error.
       if (newOrcamentoBody == null)
       {
         return BadRequest();
       }
+
+      // create quote from body
+      OrcamentoDto orcamentoToCreate = _repository.CreateOrcamento(newOrcamentoBody);
 
       // return created quote as result with status code 201
       return Created("orcamento", orcamentoToCreate);
