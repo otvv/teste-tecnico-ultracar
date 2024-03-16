@@ -73,5 +73,19 @@ namespace Ultracar.Controllers
       // return a single or more orcamentos with status code 200
       return Ok(orcamentos);
     }
+    [HttpGet("numero/{orcamentoNumber}")]
+    public IActionResult GetOrcamentoByNumber(string orcamentoNumber)
+    {
+      OrcamentoDto? orcamento = _repository.GetOrcamentoByNumber(orcamentoNumber);
+
+      // if the specified orcamento table is empty or doesn't exist return a NotFound error.
+      if (orcamento == null)
+      {
+        return NotFound();
+      }
+
+      // return a single or more orcamentos with status code 200
+      return Ok(orcamento);
+    }
   }
 }

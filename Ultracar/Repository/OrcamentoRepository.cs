@@ -113,5 +113,33 @@ namespace Ultracar.Repository
 
       return orcamentos;
     }
+    public OrcamentoDto GetOrcamentoByNumber(string orcamentoNumber)
+    { 
+      Orcamento? orcamento = _context.Orcamentos
+      .Include(obj => obj.Pecas)
+      .FirstOrDefault(orcament => orcament.NumeracaoOrcamento == orcamentoNumber);
+
+      if (orcamento == null) 
+      {
+        return null!;
+      }
+
+      OrcamentoDto result = new()
+      {
+        Id = orcamento!.Id,
+        NumeracaoOrcamento = orcamento.NumeracaoOrcamento,
+        PlacaVeiculo = orcamento.PlacaVeiculo,
+        NomeCliente = orcamento.NomeCliente,
+        Pecas = orcamento.Pecas?.Select(peca => new PecaDto
+        {
+          Id = peca.Id,
+          NomePeca = peca.NomePeca,
+          Quantidade = peca.Quantidade,
+          PecaEntregue = peca.PecaEntregue
+        }).ToList()
+      };
+
+      return result;
+    }
   }
 }
