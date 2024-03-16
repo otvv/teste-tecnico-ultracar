@@ -116,5 +116,23 @@ namespace Ultracar.Controllers
       // return created quote as result with status code 201
       return Created("estoque", partToCreate);
     }
+
+    //
+
+    [HttpDelete("{id}")]
+    public IActionResult RemovePartFromEstoque(int id)
+    { 
+      if (id == 0)
+      { 
+        // if the user explicitly puts 0 or "nothing" as an id, return a Bad Request error
+        return BadRequest();
+      }
+
+      // attempt to remove a part by its id
+      _repository.RemovePartFromEstoque(id);
+
+      // return status code 204 (No Content) in case everything goes well
+      return NoContent();
+    }
   }
 }

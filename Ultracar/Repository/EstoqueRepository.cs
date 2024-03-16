@@ -238,5 +238,25 @@ namespace Ultracar.Repository
         };
       }
     }
+
+    //
+
+    public void RemovePartFromEstoque(int id)
+    {
+      // find part to remove by its id
+      Estoque? partToRemove = _context.Estoque
+      .FirstOrDefault(part => part.Id == id);
+
+      if (partToRemove == null) 
+      {
+        throw new InvalidOperationException("[Ultracar] - ERROR: failed to remove, part not found.");
+      }
+
+      // remove orcament 
+      _context.Estoque.Remove(partToRemove);
+
+      // save changes in the data base
+      _context.SaveChanges();
+    }
   }
 }

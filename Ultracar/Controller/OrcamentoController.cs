@@ -148,7 +148,7 @@ namespace Ultracar.Controllers
         return BadRequest();
       }
 
-      // attempt to remove an quote by its id
+      // attempt to remove a quote by its id
       _repository.RemoveOrcamento(id);
 
       // return status code 204 (No Content) in case everything goes well
