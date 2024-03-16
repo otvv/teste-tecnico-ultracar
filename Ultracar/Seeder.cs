@@ -22,8 +22,8 @@ namespace Ultracar
 
       Peca[] pecas =
       {
-        new() { NomePeca = "Peca1", EstoquePeca = 10, OrcamentoId = 1, EstoqueId = 1, PecaEntregue = false },
-        new() { NomePeca = "Peca2", EstoquePeca = 20, OrcamentoId = 2, EstoqueId = 2, PecaEntregue = true }
+        new() { NomePeca = "Peca1", EstoquePeca = 100, OrcamentoId = 1, EstoqueId = 1, PecaEntregue = false },
+        new() { NomePeca = "Peca2", EstoquePeca = 200, OrcamentoId = 2, EstoqueId = 2, PecaEntregue = true }
       };
 
       Estoque[] estoque =
