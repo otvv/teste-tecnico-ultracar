@@ -53,5 +53,44 @@ namespace Ultracar.Repository
 
       return result;
     }
+     public EstoqueDto GetPartByName(string partName)
+    { 
+      Estoque? part = _context.Estoque
+      .FirstOrDefault(stock => stock.NomePeca == partName);
+
+      if (part == null) 
+      {
+        throw new InvalidOperationException("[Ultracar] - ERROR: failed to find, part not found.");
+      }
+
+      EstoqueDto result = new()
+      {
+        Id = part.Id,
+        NomePeca = part.NomePeca,
+        EstoquePeca = part.EstoquePeca,
+        TipoMovimentacao = part.TipoMovimentacao,
+      };
+
+      return result;
+    }
+    public IEnumerable<EstoqueDto> GetPartsByState(ActionTypes state)
+    {
+      List<EstoqueDto> parts = _context.Estoque
+      .Where(stock => stock.TipoMovimentacao == state)
+      .Select(part => new EstoqueDto
+      {
+        Id = part.Id,
+        NomePeca = part.NomePeca,
+        EstoquePeca = part.EstoquePeca,
+        TipoMovimentacao = part.TipoMovimentacao,
+      }).ToList();
+
+      if (parts == null) 
+      {
+        throw new InvalidOperationException("[Ultracar] - ERROR: failed to find, part(s) not found.");
+      }
+
+      return parts;
+    }
   }
 }

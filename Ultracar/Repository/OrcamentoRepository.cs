@@ -36,7 +36,7 @@ namespace Ultracar.Repository
 
       if (orcamentos == null)
       {
-        throw new InvalidOperationException("[Ultracar] - ERROR: failed to find, quote not found.");
+        throw new InvalidOperationException("[Ultracar] - ERROR: failed to find, quote(s) not found.");
       }
 
       return orcamentos;
@@ -91,7 +91,7 @@ namespace Ultracar.Repository
 
       if (orcamentos == null) 
       {
-        throw new InvalidOperationException("[Ultracar] - ERROR: failed to find, quote not found.");
+        throw new InvalidOperationException("[Ultracar] - ERROR: failed to find, quote(s) not found.");
       }
 
       return orcamentos;
@@ -118,7 +118,7 @@ namespace Ultracar.Repository
 
       if (orcamentos == null) 
       {
-        throw new InvalidOperationException("[Ultracar] - ERROR: failed to find, quotes not found.");
+        throw new InvalidOperationException("[Ultracar] - ERROR: failed to find, quote(s) not found.");
       }
 
       return orcamentos;
@@ -131,7 +131,7 @@ namespace Ultracar.Repository
 
       if (orcamento == null) 
       {
-        throw new InvalidOperationException("[Ultracar] - ERROR: failed to find, quotes not found.");
+        throw new InvalidOperationException("[Ultracar] - ERROR: failed to find, quote not found.");
       }
 
       OrcamentoDto result = new()
@@ -168,7 +168,7 @@ namespace Ultracar.Repository
 
       if (updatedOrcamento == null) 
       {
-        throw new InvalidOperationException("[Ultracar] - ERROR: failed to update, quotes not found.");
+        throw new InvalidOperationException("[Ultracar] - ERROR: failed to update, quote(s) not found.");
       }
 
       // edit quote
@@ -275,7 +275,7 @@ namespace Ultracar.Repository
 
       if (orcamentoToRemove == null) 
       {
-        throw new InvalidOperationException("[Ultracar] - ERROR: failed to remove, orcamento not found.");
+        throw new InvalidOperationException("[Ultracar] - ERROR: failed to remove, quote not found.");
       }
 
       // remove orcament 

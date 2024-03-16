@@ -1,6 +1,7 @@
 using Microsoft.AspNetCore.Mvc;
 using Ultracar.Dto;
 using Ultracar.Repository;
+using Ultracar.Models;
 
 namespace Ultracar.Controllers
 {
@@ -28,8 +29,7 @@ namespace Ultracar.Controllers
       // return list of parts in stock with status code 200
       return Ok(estoque);
     }
-
-     [HttpGet("{id}")]
+    [HttpGet("{id}")]
     public IActionResult GetPartById(int id)
     {
       EstoqueDto? estoque = _repository.GetPartById(id);
@@ -42,6 +42,34 @@ namespace Ultracar.Controllers
 
       // return a single part from stock with status code 200
       return Ok(estoque);
+    }
+    [HttpGet("peca/{partName}")]
+    public IActionResult GetPartByName(string partName)
+    {
+      EstoqueDto? estoque = _repository.GetPartByName(partName);
+
+      // if the specified stock table is empty or doesn't exist return a NotFound error.
+      if (estoque == null)
+      {
+        return NotFound();
+      }
+
+      // return a single part from stock with status code 200
+      return Ok(estoque);
+    }
+    [HttpGet("estado/{state}")]
+    public IActionResult GetPartByState(ActionTypes state)
+    {
+      IEnumerable<EstoqueDto>? parts = _repository.GetPartsByState(state);
+
+      // if the specified stock table is empty or doesn't exist return a NotFound error.
+      if (parts == null)
+      {
+        return NotFound();
+      }
+
+      // return a one or multiple parts from stock with status code 200
+      return Ok(parts);
     }
   }
 }

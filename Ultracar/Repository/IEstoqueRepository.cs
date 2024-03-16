@@ -8,5 +8,7 @@ namespace Ultracar.Repository
     // READ
     IEnumerable<EstoqueDto> GetEstoque(); // list all parts in stock
     EstoqueDto GetPartById(int id); // list a part in stock by its id
+    EstoqueDto GetPartByName(string partName); // list part in stock by its name
+    IEnumerable<EstoqueDto> GetPartsByState(ActionTypes state); // list one or multiple parts in stock by its state (reserved or in stock)
   }
 }
