@@ -36,7 +36,7 @@ namespace Ultracar.Repository
 
       if (orcamentos == null)
       {
-        return null!;
+        throw new InvalidOperationException("[Ultracar] - ERROR: failed to find, orcamento not found.");
       }
 
       return orcamentos;
@@ -49,7 +49,7 @@ namespace Ultracar.Repository
 
       if (orcamento == null) 
       {
-        return null!;
+        throw new InvalidOperationException("[Ultracar] - ERROR: failed to find, orcamento not found.");
       }
 
       OrcamentoDto result = new()
@@ -89,6 +89,11 @@ namespace Ultracar.Repository
           }).ToList()
         }).ToList();
 
+      if (orcamentos == null) 
+      {
+        throw new InvalidOperationException("[Ultracar] - ERROR: failed to find, orcamento not found.");
+      }
+
       return orcamentos;
     }
     public IEnumerable<OrcamentoDto> GetOrcamentoByLicensePlate(string licensePlate)
@@ -111,6 +116,11 @@ namespace Ultracar.Repository
           }).ToList()
         }).ToList();
 
+      if (orcamentos == null) 
+      {
+        throw new InvalidOperationException("[Ultracar] - ERROR: failed to find, orcamentos not found.");
+      }
+
       return orcamentos;
     }
     public OrcamentoDto GetOrcamentoByNumber(string orcamentoNumber)
@@ -121,7 +131,7 @@ namespace Ultracar.Repository
 
       if (orcamento == null) 
       {
-        return null!;
+        throw new InvalidOperationException("[Ultracar] - ERROR: failed to find, orcamento not found.");
       }
 
       OrcamentoDto result = new()
@@ -137,6 +147,83 @@ namespace Ultracar.Repository
           Quantidade = peca.Quantidade,
           PecaEntregue = peca.PecaEntregue
         }).ToList()
+      };
+
+      return result;
+    }
+
+    //
+
+    public OrcamentoDto UpdateOrcamentoById(int id, Orcamento orcamento)
+    { 
+      // find orcamento to edit by its id
+      Orcamento? updatedOrcamento = _context.Orcamentos
+      .Include(obj => obj.Pecas)
+      .FirstOrDefault(orcament => orcament.Id == id);
+
+      if (updatedOrcamento == null) 
+      {
+        throw new InvalidOperationException("[Ultracar] - ERROR: failed to update, orcamento not found.");
+      }
+
+      // edit orcamento
+      _context.Orcamentos.Update(updatedOrcamento);
+
+      // edit orcamento with data received from body
+      updatedOrcamento.NumeracaoOrcamento = orcamento.NumeracaoOrcamento;
+      updatedOrcamento.NomeCliente = orcamento.NomeCliente;
+      updatedOrcamento.PlacaVeiculo = orcamento.PlacaVeiculo;
+
+      // save changes in the data base
+      _context.SaveChanges();
+      
+      // create a simple dto to display the changes
+      // partialy at the moment
+      OrcamentoDto result = new()
+      {
+        Id = updatedOrcamento.Id,
+        NumeracaoOrcamento = updatedOrcamento.NumeracaoOrcamento,
+        NomeCliente = updatedOrcamento.NomeCliente,
+        PlacaVeiculo = updatedOrcamento.PlacaVeiculo,
+        Pecas = updatedOrcamento.Pecas?.Select(peca => new PecaDto
+        {
+          Id = peca.Id,
+          NomePeca = peca.NomePeca,
+          Quantidade = peca.Quantidade,
+          PecaEntregue = peca.PecaEntregue
+        }).ToList(),
+      };
+
+      return result;
+    }
+    public OrcamentoDto UpdateOrcamento(Orcamento orcamento)
+    { 
+      if (orcamento == null) 
+      {
+        throw new InvalidOperationException("[Ultracar] - ERROR: failed to update, orcamento not found.");
+      }
+
+      // edit an entire orcamento column
+      _context.Orcamentos.Update(orcamento);
+
+      // save changes in the data base
+      _context.SaveChanges();
+
+      // create a simple dto to display the changes
+      // partialy at the moment
+      OrcamentoDto result = new()
+      {
+        Id = orcamento.Id,
+        NumeracaoOrcamento = orcamento.NumeracaoOrcamento,
+        NomeCliente = orcamento.NomeCliente,
+        PlacaVeiculo = orcamento.PlacaVeiculo,
+        Pecas = orcamento.Pecas?.Select(peca => new PecaDto
+        {
+          Id = peca.Id,
+          NomePeca = peca.NomePeca,
+          Quantidade = peca.Quantidade,
+          PecaEntregue = peca.PecaEntregue
+        }).ToList(),
       };
 
       return result;

@@ -1,5 +1,6 @@
 using Microsoft.AspNetCore.Mvc;
 using Ultracar.Dto;
+using Ultracar.Models;
 using Ultracar.Repository;
 
 namespace Ultracar.Controllers
@@ -86,6 +87,25 @@ namespace Ultracar.Controllers
 
       // return a single or more orcamentos with status code 200
       return Ok(orcamento);
+    }
+
+    [HttpPut("{id}")]
+    public IActionResult UpdateOrcamentoById(int id, [FromBody] Orcamento orcamento)
+    { 
+      // update an entire orcamento by its id
+      OrcamentoDto editedResult = _repository.UpdateOrcamentoById(id, orcamento);
+
+      // return partial edited data as result with status code 200
+      return Ok(editedResult);
+    }
+    [HttpPut]
+    public IActionResult UpdateOrcamento([FromBody] Orcamento orcamento)
+    {  
+      // update an entire orcamento
+      OrcamentoDto editedResult = _repository.UpdateOrcamento(orcamento);
+
+      // return partial edited data as result with status code 200
+      return Ok(editedResult);
     }
   }
 }
