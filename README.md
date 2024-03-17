@@ -14,17 +14,34 @@ Precisa criar um sistema para automatizar e digitalizar processos seguindo as se
 * É importante que toda movimentação de estoque seja armazenada.
 ---
 
-**Tecnologias usadas no projeto:**
+**Documentação da API**:
+
+[DOCUMENTACAO.md](/Repo/DOCUMENTACAO.md)
+
+**Diagrama do banco de dados**:
+
+![diagrama-ultracar-db](/Repo/ultracar_db_diagram.png)
+
+**Dump recente banco de dados**:
+
+[dump-ultracar_db-202403171823.sql](/Repo/dump-ultracar_db-202403171823.sql)
+[dump-ultracar_db-202403171822.tar](/Repo/dump-ultracar_db-202403171822.tar)
+
+_caso necessite autenticação_:
+ `USER: postgre` 
+ `SENHA: 12345`
+
+**Tecnologias usadas no projeto**:
 
 * Entity Framework como ORM
 * PostgresSQL com Docker
 * .NET Core 8
 * DBeaver para visualizar e realizar o dump do banco de dados.
 
-**Praticas utilizadas:**
+**Praticas utilizadas**:
 
 * Code-First
 * Metodologia Code-First
 * Injeção de dependências
 
-Os requisitos detalhados do projeto estao localizados [aqui](/Repo/Requisitos.md).
+Os requisitos detalhados do projeto estao localizados [aqui](/Repo/REQUISITOS.md).
