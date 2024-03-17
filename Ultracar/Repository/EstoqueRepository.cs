@@ -277,14 +277,16 @@ namespace Ultracar.Repository
       }
 
       // decrease quantity from the part stock with data received from request query
-      if (updatedPart.EstoquePeca > 0)
+      if (updatedPart.EstoquePeca > 0 || updatedPart.EstoquePeca >= quantity)
       {
         updatedPart.EstoquePeca -= quantity;
       }
       else 
       { 
-        // if  the quantity reaches 0 the part is out of stock
+        // if the quantity reaches 0 the part is out of stock
         updatedPart.TipoMovimentacao = ActionTypes.OutOfStock;
+
+        throw new InvalidOperationException($"[Ultracar] - ERROR: failed to add part, the {updatedPart.NomePeca} stock is empty or it doesn't have the amount specified in the request.");
       }
 
       // save changes in the data base

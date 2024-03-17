@@ -68,14 +68,13 @@ namespace Ultracar.Repository
         // but the client might not have authorized the order so the part could still be in stock
 
         // check if the part actually has stock available
-        if (foundPartInStock.EstoquePeca >= peca.Quantidade)
+        if (foundPartInStock.EstoquePeca > 0 || foundPartInStock.EstoquePeca >= peca.Quantidade)
         {
           // set part state to Reserve since it's being added into a clients quote
           foundPartInStock.TipoMovimentacao = ActionTypes.Reserved;
 
           // deduct the quantity of part in the stock
           foundPartInStock.EstoquePeca -= peca.Quantidade;
-
         }
         else
         {
