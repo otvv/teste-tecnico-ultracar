@@ -184,7 +184,7 @@ namespace Ultracar.Repository
       }
 
       // check if a part with the same name already exists in the stock table
-      bool partExists = _context.Estoque.Any(e => e.NomePeca == newPartBody.NomePeca);
+      bool partExists = _context.Estoque.Any(stock => stock.NomePeca == newPartBody.NomePeca);
 
       if (partExists)
       {

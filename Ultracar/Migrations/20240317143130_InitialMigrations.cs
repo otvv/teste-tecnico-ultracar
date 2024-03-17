@@ -47,11 +47,10 @@ namespace Ultracar.Migrations
                 {
                     Id = table.Column<int>(type: "integer", nullable: false)
                         .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
-                    NomePeca = table.Column<string>(type: "text", nullable: false),
                     Quantidade = table.Column<int>(type: "integer", nullable: false),
+                    NomePeca = table.Column<string>(type: "text", nullable: false),
                     OrcamentoId = table.Column<int>(type: "integer", nullable: true),
-                    EstoqueId = table.Column<int>(type: "integer", nullable: true),
-                    PecaEntregue = table.Column<bool>(type: "boolean", nullable: false)
+                    EstoqueId = table.Column<int>(type: "integer", nullable: true)
                 },
                 constraints: table =>
                 {

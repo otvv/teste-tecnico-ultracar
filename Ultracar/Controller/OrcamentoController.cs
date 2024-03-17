@@ -103,21 +103,6 @@ namespace Ultracar.Controllers
       // return partial edited data as result with status code 200
       return Ok(editedResult);
     }
-    [HttpPut]
-    public IActionResult UpdateOrcamento([FromBody] Orcamento orcamentoBody)
-    {  
-      // if the quote body is empty return a BadRequest error.
-      if (orcamentoBody == null)
-      {
-        return BadRequest();
-      }
-
-      // update an entire quote
-      OrcamentoDto editedResult = _repository.UpdateOrcamento(orcamentoBody);
-
-      // return partial edited data as result with status code 200
-      return Ok(editedResult);
-    }
 
     //
 

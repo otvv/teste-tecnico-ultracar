@@ -6,9 +6,9 @@ public enum ActionTypes : int
 {
   InStock,
   Reserved,
+  OutOfStock,
 }
 
-// estoque model (many-to-one relationship db table)
 public class Estoque
 {
   [Key]
@@ -19,7 +19,8 @@ public class Estoque
   public int EstoquePeca { get; set; }
 
   // type of the stock operation
-  // could be either "InStock" or "Reserved"
+  // could be either "InStock", "Reserved" or "OutOfStock
+  // TODO: add an invalid state for fallback reasons?
   [Required]
   public ActionTypes TipoMovimentacao { get; set; }
 }

@@ -88,9 +88,6 @@ namespace Ultracar.Migrations
                     b.Property<int?>("OrcamentoId")
                         .HasColumnType("integer");
 
-                    b.Property<bool>("PecaEntregue")
-                        .HasColumnType("boolean");
-
                     b.Property<int>("Quantidade")
                         .HasColumnType("integer");
 

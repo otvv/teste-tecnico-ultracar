@@ -12,7 +12,7 @@ using Ultracar.Context;
 namespace Ultracar.Migrations
 {
     [DbContext(typeof(UltracarDbContext))]
-    [Migration("20240316160627_InitialMigrations")]
+    [Migration("20240317143130_InitialMigrations")]
     partial class InitialMigrations
     {
         /// <inheritdoc />
@@ -90,9 +90,6 @@ namespace Ultracar.Migrations
 
                     b.Property<int?>("OrcamentoId")
                         .HasColumnType("integer");
-
-                    b.Property<bool>("PecaEntregue")
-                        .HasColumnType("boolean");
 
                     b.Property<int>("Quantidade")
                         .HasColumnType("integer");
