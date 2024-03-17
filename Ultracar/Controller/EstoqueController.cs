@@ -83,7 +83,7 @@ namespace Ultracar.Controllers
         return BadRequest();
       }
 
-      // update an specific part by its id
+      // update a specific part by its id
       EstoqueDto editedResult = _repository.UpdatePartById(id, partBody);
 
       // return partial edited data as result with status code 200
@@ -100,6 +100,21 @@ namespace Ultracar.Controllers
 
       // update an entire quote
       List<EstoqueDto> editedResult = _repository.UpdateEstoque(estoqueBody);
+
+      // return partial edited data as result with status code 200
+      return Ok(editedResult);
+    }
+    [HttpPut("peca/{id}")]
+    public IActionResult AddStockToPartById(int id, [FromQuery] int quantity)
+    { 
+      // if the quantity is invalid return a BadRequest error.
+      if (quantity == 0)
+      {
+        return BadRequest();
+      }
+
+      // update a specific part stock by its id
+      EstoqueDto editedResult = _repository.AddStockToPartById(id, quantity);
 
       // return partial edited data as result with status code 200
       return Ok(editedResult);

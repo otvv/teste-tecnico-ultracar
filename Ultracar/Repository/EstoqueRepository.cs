@@ -102,34 +102,33 @@ namespace Ultracar.Repository
         throw new InvalidOperationException("[Ultracar] - ERROR: failed to update, body is empty.");
       }
 
-      // find stock to edit by its id
-      Estoque? updatedParte = _context.Estoque
+      // find part to edit by its part id inside the stock
+      Estoque? updatedPart = _context.Estoque
       .FirstOrDefault(part => part.Id == id);
 
-      if (updatedParte == null) 
+      if (updatedPart == null) 
       {
         throw new InvalidOperationException("[Ultracar] - ERROR: failed to update, part not found.");
       }
 
       // edit part in stock
-      _context.Estoque.Update(updatedParte);
+      _context.Estoque.Update(updatedPart);
 
-      // edit quote with data received from body
-      updatedParte.NomePeca = partBody.NomePeca;
-      updatedParte.EstoquePeca = partBody.EstoquePeca;
-      updatedParte.TipoMovimentacao = partBody.TipoMovimentacao;
+      // edit part with data received from body
+      updatedPart.NomePeca = partBody.NomePeca;
+      updatedPart.EstoquePeca = partBody.EstoquePeca;
+      updatedPart.TipoMovimentacao = partBody.TipoMovimentacao;
 
       // save changes in the data base
       _context.SaveChanges();
       
       // create a simple dto to display the changes
-      // partialy at the moment
       EstoqueDto result = new()
       {
-        Id = updatedParte.Id,
-        NomePeca = updatedParte.NomePeca,
-        EstoquePeca = updatedParte.EstoquePeca,
-        TipoMovimentacao = updatedParte.TipoMovimentacao,
+        Id = updatedPart.Id,
+        NomePeca = updatedPart.NomePeca,
+        EstoquePeca = updatedPart.EstoquePeca,
+        TipoMovimentacao = updatedPart.TipoMovimentacao,
       };
 
       return result;
@@ -237,6 +236,34 @@ namespace Ultracar.Repository
           TipoMovimentacao = newPartBody.TipoMovimentacao,
         };
       }
+    }
+    public EstoqueDto AddStockToPartById(int id, int quantity)
+    {
+      // find part to edit by its part id inside the stock
+      Estoque? updatedPart = _context.Estoque
+      .FirstOrDefault(part => part.Id == id);
+
+      if (updatedPart == null)
+      {
+        throw new InvalidOperationException("[Ultracar] - ERROR: failed to update, part not found.");
+      }
+
+      // increase part stock quantity with data received from the request query
+      updatedPart.EstoquePeca += quantity;
+
+      // save changes in the data base
+      _context.SaveChanges();
+
+      // create a simple dto to display the changes
+      EstoqueDto result = new()
+      {
+        Id = updatedPart.Id,
+        NomePeca = updatedPart.NomePeca,
+        EstoquePeca = updatedPart.EstoquePeca,
+        TipoMovimentacao = updatedPart.TipoMovimentacao,
+      };
+
+      return result;
     }
 
     //
