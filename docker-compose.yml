@@ -1,6 +1,16 @@
 version: '3'
 
 services:
+  app:
+    build:
+      context: ./Ultracar
+      dockerfile: Dockerfile
+    ports:
+      - "80:80"
+    depends_on:
+      - db
+    environment:
+      - ASPNETCORE_ENVIRONMENT=Development
   db:
     image: postgres
     restart: always
@@ -8,3 +18,10 @@ services:
       POSTGRES_PASSWORD: 12345
     ports:
       - "5432:5432"
+  ef:
+    build:
+      context: ./Ultracar
+      dockerfile: Dockerfile
+    command: sh -c "dotnet ef migrations add InitialMigrations && dotnet ef database update"
+    depends_on:
+      - db
