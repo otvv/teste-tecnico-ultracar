@@ -20,8 +20,8 @@ WORKDIR /app
 # Copy the build output from the previous stage
 COPY --from=build /app/build .
 
-# Expose port 80 for the web application
-EXPOSE 80
+# Expose port 5123 for the web application
+EXPOSE 5123
 
 # Start the web application
 ENTRYPOINT ["dotnet", "Ultracar.dll"]
