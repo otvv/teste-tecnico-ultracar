@@ -1,6 +1,6 @@
 # Ultracar Etapa Tecnica:
 
-### Objetivo
+## Objetivo
 
 A criação de um sistema que gerencia uma oficina de veículos.
 Precisa criar um sistema para automatizar e digitalizar processos seguindo as seguintes regras:
@@ -14,7 +14,7 @@ Precisa criar um sistema para automatizar e digitalizar processos seguindo as se
 * É importante que toda movimentação de estoque seja armazenada.
 ---
 
-**Documentação da API**:
+### Documentação da API:
 
 [DOCUMENTACAO.md](/Repo/DOCUMENTACAO.md)
 
@@ -25,9 +25,11 @@ Precisa criar um sistema para automatizar e digitalizar processos seguindo as se
 **Dump recente banco de dados**:
 
 [dump-ultracar_db-202403171823.sql](/Repo/dump-ultracar_db-202403171823.sql)
+
 [dump-ultracar_db-202403171822.tar](/Repo/dump-ultracar_db-202403171822.tar)
 
 _caso necessite autenticação_:
+
  `USER: postgre` 
  `SENHA: 12345`
 
