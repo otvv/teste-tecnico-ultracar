@@ -265,6 +265,42 @@ namespace Ultracar.Repository
 
       return result;
     }
+    public EstoqueDto RemoveStockFromPartById(int id, int quantity)
+    {
+      // find part to edit by its part id inside the stock
+      Estoque? updatedPart = _context.Estoque
+      .FirstOrDefault(part => part.Id == id);
+
+      if (updatedPart == null)
+      {
+        throw new InvalidOperationException("[Ultracar] - ERROR: failed to update, part not found.");
+      }
+
+      // decrease quantity from the part stock with data received from request query
+      if (updatedPart.EstoquePeca > 0)
+      {
+        updatedPart.EstoquePeca -= quantity;
+      }
+      else 
+      { 
+        // if  the quantity reaches 0 the part is out of stock
+        updatedPart.TipoMovimentacao = ActionTypes.OutOfStock;
+      }
+
+      // save changes in the data base
+      _context.SaveChanges();
+
+      // create a simple dto to display the changes
+      EstoqueDto result = new()
+      {
+        Id = updatedPart.Id,
+        NomePeca = updatedPart.NomePeca,
+        EstoquePeca = updatedPart.EstoquePeca,
+        TipoMovimentacao = updatedPart.TipoMovimentacao,
+      };
+
+      return result;
+    }
 
     //
 

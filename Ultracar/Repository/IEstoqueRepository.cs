@@ -17,7 +17,8 @@ namespace Ultracar.Repository
 
     // CREATE
     EstoqueDto AddPartInEstoque(Estoque newPartBody); // manually add a part in stock
-    EstoqueDto AddStockToPartById(int id, int quantity); // manually add stock to a part in stock
+    EstoqueDto AddStockToPartById(int id, int quantity); // manually add stock to a part
+    EstoqueDto RemoveStockFromPartById(int id, int quantity); // manually remove stock from a part
 
     // DELETE
     void RemovePartFromEstoque(int id); // removes a specific part from the stock
