@@ -39,10 +39,10 @@ _caso necessite autenticação_:
 * PostgresSQL com Docker
 * .NET Core 8
 * DBeaver para visualizar e realizar o dump do banco de dados.
+* Insomnia para visualizar e realizar queries na API.
 
 **Praticas utilizadas**:
 
-* Code-First
 * Metodologia Code-First
 * Injeção de dependências
 
