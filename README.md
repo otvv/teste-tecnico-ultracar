@@ -24,9 +24,9 @@ Precisa criar um sistema para automatizar e digitalizar processos seguindo as se
 
 **Dump recente banco de dados**:
 
-[dump-ultracar_db-202403171823.sql](/Repo/dump-ultracar_db-202403171823.sql)
+[dump-ultracar_db_plain.sql](/Repo/dump-ultracar_db_plain.sql)
 
-[dump-ultracar_db-202403171822.tar](/Repo/dump-ultracar_db-202403171822.tar)
+[dump-ultracar_db.tar](/Repo/dump-ultracar_db.tar)
 
 _caso necessite autenticação_:
 
