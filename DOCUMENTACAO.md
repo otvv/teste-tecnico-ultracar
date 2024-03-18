@@ -4,7 +4,7 @@ A simple documentation for the _Ultracar API_ with it's possible routes _(endpoi
 
 All data shown below was generated using the API's seeder. 
 
-Located at `Ultracar/Seeder.cs`. This are the same data that's going to be fed to the DB with the migrations.
+Located at `Ultracar/Seeder.cs`. These are the same data that's going to be fed to the DB with the migrations.
 
 
 ### ROOT (/)
