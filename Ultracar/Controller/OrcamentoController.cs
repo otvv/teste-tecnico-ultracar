@@ -88,7 +88,7 @@ namespace Ultracar.Controllers
 
     //
 
-    [HttpPut("{id}")]
+    [HttpPut("{id}/info/update")]
     public IActionResult UpdateOrcamentoInfo(int id, [FromBody] Orcamento orcamentoBody)
     { 
       // update an entire quote by its id

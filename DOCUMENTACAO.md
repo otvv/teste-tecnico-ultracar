@@ -6,6 +6,8 @@ All data shown below was generated using the API's seeder.
 
 Located at `Ultracar/Seeder.cs`. These are the same data that's going to be fed to the DB with the migrations.
 
+_(might have some minor differences inside the seeder, but all basic functionality of the API is documented here with up to date examples, if something doesn't work please let me know.)_
+
 
 ### ROOT (/)
 
@@ -243,41 +245,29 @@ The endpoint that can display a single quote based in the _`numeracaoOrcamento`_
 }
 ```
 
-### UPDATE ORCAMENTO BY ID (/orcamentos/{id})
+### UPDATE ORCAMENTO INFO (/orcamentos/{id}/info/update)
 
 **Method type**: `PUT`
 
 **Endpoint**:
 
-`https://localhost:5153/orcamentos/{id}`
+`https://localhost:5153/orcamentos/{id}/info/update`
 
 **Description:**
 
 The endpoint that can update a single quote based on its _`id`_ inside the **Orcamento** table in the DB.
-If a part is changed or added in a clients quote, it's altered in the **_Estoque_** table as well, such as stock quantity and its current state.
-
-NOTE: _if 'pecaEntregue' is true it means that it's Reserved to one or multiple quotes, false otherwise_.
+This endpoint can only update the quote info, such as client's name, vehicle license plate and so on...
 
 **Example usage:**
 
-`https://localhost:5153/orcamentos/3`
+`https://localhost:5153/orcamentos/3/info/update`
 
 `request body:`
 ```json
 	{
-		"id": 3,
 		"numeracaoOrcamento": "334",
-		"placaVeiculo": "HHH222", // changed value
-		"nomeCliente": "John Doe",
-		"pecas": [
-			{
-				"id": 4,
-				"estoqueId": 4,
-				"nomePeca": "Peca4",
-				"quantidade": 3, // changed value
-				"pecaEntregue": true
-			}
-		]
+		"placaVeiculo": "HHH222", // value being updated
+		"nomeCliente": "John Dove", // value being updated
 	}
 ```
 
@@ -301,7 +291,61 @@ NOTE: _if 'pecaEntregue' is true it means that it's Reserved to one or multiple 
 	}
 ```
 
-### CREATE ORCAMENTO (/orcamentos/})
+### UPDATE PART IN ORCAMENTO (/orcamentos/{id}/peca/update)
+
+**Method type**: `POST`
+
+**Endpoint**:
+
+`https://localhost:5153/orcamentos/{id}/part/update`
+
+**Description:**
+
+The endpoint that can update one or multiple parts in a single quote based on its _`id`_ inside the **Orcamento** table in the DB.
+
+If one or more parts are being update in a clients quote, it's info gets altered in the **_Estoque_** table as well, such as stock quantity and its current state.
+
+NOTE: _if 'pecaEntregue' is true it means that it's Reserved to one or multiple quotes, false otherwise_.
+
+NOTE: _You can't add new parts with this method, use the `AddPartInOrcamento` function for that._
+
+**Example usage:**
+
+`https://localhost:5153/orcamentos/3/part/update`
+
+`request body:`
+```json
+[ // needs to be an array even if its only one part being updated
+	{
+		"estoqueId": 4, // you can't change this info (to avoid conflicts in the Estoque table.)
+		"nomePeca": "Peca4",
+		"quantidade": 21, // value being updated
+		"pecaEntregue": true
+	}
+]
+```
+
+**Expected result**: `200: Ok`
+
+```json
+	{
+		"id": 3,
+		"numeracaoOrcamento": "334",
+		"placaVeiculo": "HHH222",
+		"nomeCliente": "John Doe",
+		"pecas": [
+			{
+				"id": 4,
+				"estoqueId": 4,
+				"nomePeca": "Peca4",
+				"quantidade": 21,
+				"pecaEntregue": true
+			}
+		]
+	}
+```
+
+### CREATE ORCAMENTO INFO (/orcamentos/})
 
 **Method type**: `POST`
 
@@ -312,9 +356,9 @@ NOTE: _if 'pecaEntregue' is true it means that it's Reserved to one or multiple 
 **Description:**
 
 The endpoint that can create a single quote inside the **Orcamento** table in the DB.
-You can create the quote with or without parts. The API will also check if the part you're trying to add in the quote is already included on it, if so the API will just edit the part instead.
+You can only create the quote without the parts, which means that  you can only create the quote with basic info, such as names, vehicle license plate and unique id. 
 
-NOTE: _If you do add parts, just make sure that it exists in the _**Estoque*_ table first, otherwise the API will throw an error saying that the part doesn't exist._
+If you want to add parts in a quote check the _AddPartsInOrcamento_ function documentation.
 
 **Example usage:**
 
@@ -338,24 +382,58 @@ NOTE: _If you do add parts, just make sure that it exists in the _**Estoque*_ ta
 }
 ```
 
+### ADD PART IN ORCAMENTO (/orcamentos/{id}/peca/add)
+
+**Method type**: `POST`
+
+**Endpoint**:
+
+`https://localhost:5153/orcamentos/{id}/part/add`
+
+**Description:**
+
+The endpoint that can add one or multiple parts in a single quote based on its _`id`_ inside the **Orcamento** table in the DB.
+
+If a part is added in a clients quote, it's info gets altered in the **_Estoque_** table as well, such as stock quantity and its current state.
+
+NOTE: _When adding parts, just make sure that it exists in the _**Estoque*_ table first, otherwise the API will throw an error saying that the part doesn't exist._
+
+NOTE: _if 'pecaEntregue' is true it means that it's Reserved to one or multiple quotes, false otherwise_.
+
+**Example usage:**
+
+`https://localhost:5153/orcamentos/3/part/add`
+
+`request body:`
+```json
+[ // needs to be an array even if its only one part being added
+	{
+		"estoqueId": 4, // this id needs to be valid otherwise the API will throw an error
+		"nomePeca": "Peca4",
+		"quantidade": 1,
+		"pecaEntregue": true
+	}
+]
+```
+
 **Expected result**: `201: Created`
 
 ```json
-{
-	"id": 4,
-	"numeracaoOrcamento": "66XDS9",
-	"placaVeiculo": "XXX2157",
-	"nomeCliente": "Yan Ping",
-	"pecas": [
-		{
-			"id": 1,
-			"estoqueId": 3,
-			"nomePeca": "Peca3",
-			"quantidade": 1,
-			"pecaEntregue": true
-		}
-	]
-}
+	{
+		"id": 3,
+		"numeracaoOrcamento": "334",
+		"placaVeiculo": "HHH222",
+		"nomeCliente": "John Doe",
+		"pecas": [
+			{
+				"id": 4,
+				"estoqueId": 4,
+				"nomePeca": "Peca4",
+				"quantidade": 1,
+				"pecaEntregue": true
+			}
+		]
+	}
 ```
 
 ### DELETE ORCAMENTO BY ID (/orcamentos/{id}})
@@ -583,7 +661,7 @@ enum ActionTypes : int
 ```json
 {
 	"id": 1,
-	"nomePeca": "Correia Dentada", // changed value
+	"nomePeca": "Correia Dentada", // value being updated
 	"estoquePeca": 100,
 	"tipoMovimentacao": 0
 }
@@ -612,8 +690,8 @@ The endpoint that can update information about an entire **Estoque** (stock) tab
 [
   {
 		"id": 1,
-		"nomePeca": "Correia Dentada", // changed value
-		"estoquePeca": 68, // changed value
+		"nomePeca": "Correia Dentada", // value being updated
+		"estoquePeca": 68, // value being updated
 		"tipoMovimentacao": 0
 	}
 	{
@@ -624,7 +702,7 @@ The endpoint that can update information about an entire **Estoque** (stock) tab
 	},
 	{
 		"id": 3,
-		"nomePeca": "Correia Acessorios", // changed value
+		"nomePeca": "Correia Acessorios", // value being updated
 		"estoquePeca": 2,
 		"tipoMovimentacao": 1
 	},
@@ -804,7 +882,7 @@ The endpoint that can add a new part inside the **Estoque** table in the DB.
 ```json
 {
 	"id": 5,
-	"nomePeca": "Parafuso", // changed value
+	"nomePeca": "Parafuso", // value being updated
 	"estoquePeca": 10,
 	"tipoMovimentacao": 0
 }
