@@ -3,7 +3,7 @@ using System.ComponentModel.DataAnnotations.Schema;
 
 namespace Ultracar.Models;
 
-public class Peca
+public class Peca // one-to-one relationship with Estoque table
 {
   [Key]
   public int Id { get; set; }
