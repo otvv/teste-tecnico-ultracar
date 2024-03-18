@@ -89,10 +89,10 @@ namespace Ultracar.Controllers
     //
 
     [HttpPut("{id}")]
-    public IActionResult UpdateOrcamentoById(int id, [FromBody] Orcamento orcamentoBody)
+    public IActionResult UpdateOrcamentoInfo(int id, [FromBody] Orcamento orcamentoBody)
     { 
       // update an entire quote by its id
-      OrcamentoDto editedResult = _repository.UpdateOrcamentoById(id, orcamentoBody);
+      OrcamentoDto editedResult = _repository.UpdateOrcamentoInfo(id, orcamentoBody);
 
       // if the quote body is empty return a BadRequest error.
       if (orcamentoBody == null)
@@ -103,11 +103,26 @@ namespace Ultracar.Controllers
       // return partial edited data as result with status code 200
       return Ok(editedResult);
     }
+    [HttpPut("{id}/peca/update")]
+    public IActionResult UpdatePecasInOrcamento(int id, [FromBody] List<Peca> pecasToEditFromBody)
+    {
+      // if the quote body is empty return a BadRequest error.
+      if (pecasToEditFromBody == null)
+      {
+        return BadRequest();
+      }
+
+      // edit quote with pecas from body
+      OrcamentoDto orcamentoToEdit = _repository.UpdatePecasInOrcamento(id, pecasToEditFromBody);
+
+      // return created quote as result with status code 201
+      return Created($"{id}/peca/update", orcamentoToEdit);
+    }
 
     //
 
     [HttpPost]
-    public IActionResult CreateOrcamento([FromBody] Orcamento newOrcamentoBody)
+    public IActionResult CreateOrcamentoInfo([FromBody] Orcamento newOrcamentoBody)
     {
       // if the quote body is empty return a BadRequest error.
       if (newOrcamentoBody == null)
@@ -116,10 +131,25 @@ namespace Ultracar.Controllers
       }
 
       // create quote from body
-      OrcamentoDto orcamentoToCreate = _repository.CreateOrcamento(newOrcamentoBody);
+      InsertOrcamentoDto orcamentoToCreate = _repository.CreateOrcamentoInfo(newOrcamentoBody);
 
       // return created quote as result with status code 201
-      return Created("orcamento", orcamentoToCreate);
+      return Created("orcamentos", orcamentoToCreate);
+    }
+    [HttpPost("{id}/peca/add")]
+    public IActionResult AddPecasInOrcamento(int id, [FromBody] List<Peca> pecasFromBody)
+    {
+      // if the quote body is empty return a BadRequest error.
+      if (pecasFromBody == null)
+      {
+        return BadRequest();
+      }
+
+      // edit quote with pecas from body
+      OrcamentoDto orcamentoToEdit = _repository.AddPecasInOrcamento(id, pecasFromBody);
+
+      // return created quote as result with status code 201
+      return Created($"{id}/peca/add", orcamentoToEdit);
     }
 
     //

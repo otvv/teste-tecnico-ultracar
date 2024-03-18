@@ -28,8 +28,10 @@ public class Peca // one-to-one relationship with Estoque table
       if (Estoque == null || Estoque.TipoMovimentacao == ActionTypes.InStock)
       {
         return false;
-      } // return false in case the part is out of stock
-      else if (Estoque.TipoMovimentacao == ActionTypes.OutOfStock)
+      }
+      
+      // return false in case the part is out of stock
+      if (Estoque.TipoMovimentacao == ActionTypes.OutOfStock)
       {
         return false;
       }

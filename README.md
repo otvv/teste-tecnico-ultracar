@@ -30,7 +30,7 @@ Precisa criar um sistema para automatizar e digitalizar processos seguindo as se
 
 _caso necessite autenticação_:
 
- `USER: postgre` 
+ `USER: postgres` 
  `SENHA: 12345`
 
 **Tecnologias usadas no projeto**:

@@ -13,16 +13,17 @@ namespace Ultracar.Repository
     IEnumerable<OrcamentoDto> GetOrcamentoByNumber(string orcamentoNumber); // list one quote based on its identifier number
 
     // UPDATE
-    OrcamentoDto UpdateOrcamentoById(int id, Orcamento orcamentoBody); // update a specific quote by its id
+    OrcamentoDto UpdateOrcamentoInfo(int id, Orcamento orcamentoInfoBody); // update info of a single quote by its id
+    OrcamentoDto UpdatePecasInOrcamento(int id, List<Peca> pecasToEditFromBody); // updates one or more parts in a client's quote by its id
 
     // CREATE
-    OrcamentoDto CreateOrcamento(Orcamento newOrcamentoBody); // manually create a quote
+    InsertOrcamentoDto CreateOrcamentoInfo(Orcamento newOrcamentoInfoBody); // create initial quote info
+    OrcamentoDto AddPecasInOrcamento(int id, List<Peca> pecasFromBody); // adds one or more parts in a client's quote by its id
 
     // DELETE
     void RemoveOrcamento(int id); // remove a quote by its id
 
-    //
-
-    void AddOrUpdatePartInOrcamento(int orcamentoId, Peca peca); // helper to handle the creation and updates from parts inside a quote
+    // HELPERS
+    void HandleStock(Peca peca); // helper that checks and handle parts changes/transactions in stock 
   }
 }

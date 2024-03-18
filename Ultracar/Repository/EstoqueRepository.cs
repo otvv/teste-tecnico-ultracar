@@ -249,11 +249,20 @@ namespace Ultracar.Repository
         throw new InvalidOperationException("[Ultracar] - ERROR: failed to update, part not found.");
       }
 
+      // save original stock quantity for later checks
+      int originalValue = updatedPart.EstoquePeca;
+
       // check if quantity to add is valid
       if (quantity > 0)
       {
         // increase part stock quantity with data received from the request query
         updatedPart.EstoquePeca += quantity;
+
+        // if part is now in-stock, remove OutOfStock state
+        if (originalValue == 0 && updatedPart.EstoquePeca > 0)
+        { 
+          updatedPart.TipoMovimentacao = ActionTypes.InStock;
+        }
 
         // save changes in the data base
         _context.SaveChanges();

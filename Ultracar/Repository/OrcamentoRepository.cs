@@ -15,52 +15,18 @@ namespace Ultracar.Repository
 
     //
 
-    public void AddOrUpdatePartInOrcamento(int orcamentoId, Peca peca)
+    //
+
+    public void HandleStock(Peca peca)
     {
-      Orcamento? orcamento = _context.Orcamentos
-      .Include(obj => obj.Pecas!)
-      .ThenInclude(obj => obj.Estoque)
-      .SingleOrDefault(orcament => orcament.Id == orcamentoId);
-
-      if (orcamento == null)
+      if (peca == null)
       {
-        throw new InvalidOperationException("[Ultracar] - ERROR: failed to quote. (are you specifying the quote 'id' in the request body?)");
+        throw new InvalidOperationException("[Ultracar] - ERROR: failed to validade stock, part argument is empty or null.");
       }
 
-      if (orcamento.Pecas == null)
-      {
-        throw new InvalidOperationException("[Ultracar] - ERROR: failed to find, 'Peca' table is empty or null.");
-      }
-
-      // check if part to be added or modified already exists in the quote
-      Peca? foundPart = orcamento.Pecas.SingleOrDefault(part => part.Id == peca.Id);
-
-      // if it doesn't exist
-      if (foundPart == null)
-      {
-        // add part in the client's quote
-        orcamento.Pecas.Add(peca);
-
-        // save changes in the data base
-        _context.SaveChanges();
-      }
-      else // if it does exist
-      { 
-        // update data of existing part
-        foundPart.Id = peca.Id;
-        foundPart.EstoqueId = peca.EstoqueId;
-        foundPart.NomePeca = peca.NomePeca;
-        foundPart.OrcamentoId = peca.OrcamentoId;
-        foundPart.Quantidade = peca.Quantidade;
-
-        // save changes in the data base
-        // FIXME: maybe remove unecessary call
-        _context.SaveChanges();
-      }
-
-      // check if part to be added or modified exists in stock
+       // check if part to be added or modified exists in stock
       // if the part is valid, the API now has a valid instance of Estoque
-      Estoque? foundPartInStock = _context.Estoque.FirstOrDefault(stock => stock.Id == peca.EstoqueId);
+      Estoque? foundPartInStock = _context.Estoque.SingleOrDefault(stock => stock.Id == peca.EstoqueId);
 
       // in case the stock is invalid
       if (foundPartInStock == null)
@@ -96,8 +62,6 @@ namespace Ultracar.Repository
         }
       }
     }
-
-    //
 
     public IEnumerable<OrcamentoDto> GetOrcamentos()
     {
@@ -215,8 +179,8 @@ namespace Ultracar.Repository
       return orcamentos;
     }
     public IEnumerable<OrcamentoDto> GetOrcamentoByNumber(string orcamentoNumber)
-    { 
-List<OrcamentoDto> orcamento = _context.Orcamentos
+    {
+      List<OrcamentoDto> orcamento = _context.Orcamentos
         .Include(obj => obj.Pecas!)
         .ThenInclude(obj => obj.Estoque)
         .Where(orcament => orcament.NumeracaoOrcamento == orcamentoNumber)
@@ -236,7 +200,7 @@ List<OrcamentoDto> orcamento = _context.Orcamentos
           }).ToList()
         }).ToList();
 
-      if (orcamento == null) 
+      if (orcamento == null)
       {
         throw new InvalidOperationException("[Ultracar] - ERROR: failed to find, quote not found.");
       }
@@ -246,9 +210,9 @@ List<OrcamentoDto> orcamento = _context.Orcamentos
 
     //
 
-    public OrcamentoDto UpdateOrcamentoById(int id, Orcamento orcamentoBody)
+    public OrcamentoDto UpdateOrcamentoInfo(int id, Orcamento orcamentoInfoBody)
     {   
-     if (orcamentoBody == null)
+     if (orcamentoInfoBody == null)
       {
         throw new InvalidOperationException("[Ultracar] - ERROR: failed to update, body is empty.");
       }
@@ -265,19 +229,9 @@ List<OrcamentoDto> orcamento = _context.Orcamentos
       }
 
       // partially edit quote with data received from body
-      updatedOrcamento.NumeracaoOrcamento = orcamentoBody.NumeracaoOrcamento;
-      updatedOrcamento.NomeCliente = orcamentoBody.NomeCliente;
-      updatedOrcamento.PlacaVeiculo = orcamentoBody.PlacaVeiculo;
-
-      if (orcamentoBody.Pecas != null)
-      {
-        // iterate through all the parts being added in the quote body
-        foreach (Peca? peca in orcamentoBody.Pecas)
-        {
-          // update part in the quote
-          AddOrUpdatePartInOrcamento(updatedOrcamento.Id, peca);
-        }
-      }
+      updatedOrcamento.NumeracaoOrcamento = orcamentoInfoBody.NumeracaoOrcamento;
+      updatedOrcamento.NomeCliente = orcamentoInfoBody.NomeCliente;
+      updatedOrcamento.PlacaVeiculo = orcamentoInfoBody.PlacaVeiculo;
 
       // save changes in the data base
       _context.SaveChanges();
@@ -302,57 +256,68 @@ List<OrcamentoDto> orcamento = _context.Orcamentos
       return result;
     }
 
-    //
-
-    public OrcamentoDto CreateOrcamento(Orcamento newOrcamentoBody)
+    public OrcamentoDto UpdatePecasInOrcamento(int id, List<Peca> pecasToEditFromBody)
     {
-      if (newOrcamentoBody == null) 
+      if (pecasToEditFromBody == null)
       {
-        throw new InvalidOperationException("[Ultracar] - ERROR: failed to create, body is empty.");
+        throw new InvalidOperationException("[Ultracar] - ERROR: failed to edit, request body is empty.");
       }
 
-      if (newOrcamentoBody.Pecas == null)
+      // find quote to edit by its id
+      Orcamento? orcamentoToEdit = _context.Orcamentos
+      .Include(obj => obj.Pecas!)
+      .ThenInclude(obj => obj.Estoque)
+      .SingleOrDefault(orcament => orcament.Id == id);
+
+      if (orcamentoToEdit == null) 
+      {
+        throw new InvalidOperationException("[Ultracar] - ERROR: failed to edit, quote not found.");
+      }
+
+      if (orcamentoToEdit.Pecas == null)
       {
         throw new InvalidOperationException("[Ultracar] - ERROR: failed to access the part(s) in quote, 'Pecas' table is empty or null.");
       }
 
-      // populate dummy list to store current parts in the quote
-      // before the api deletes them to handle the request
-      List<Peca> pecasToAdd = newOrcamentoBody.Pecas;
-      
-      if (newOrcamentoBody.Pecas != null)
+      foreach (Peca? peca in pecasToEditFromBody)
       {
-        // remove parts from new quote body to avoid conflict
-        newOrcamentoBody.Pecas = null;
-      }
-
-      // partialy populate current quote column with body content
-      _context.Orcamentos.Add(newOrcamentoBody);
-
-      // save changes in the data base
-      _context.SaveChanges();
-
-      if (pecasToAdd != null)
-      {
-        // iterate through all the parts being added in the quote body
-        foreach (Peca? peca in pecasToAdd)
+        if (peca == null)
         {
-          // add new part(s) in the quote
-          AddOrUpdatePartInOrcamento(newOrcamentoBody.Id, peca);
+          throw new InvalidOperationException("[Ultracar] - ERROR: failed to access the part(s) in request body. parts array is empty or null.");
         }
+
+        // find part to edit
+        Peca? foundPecaToEdit = orcamentoToEdit.Pecas.SingleOrDefault(part => part.EstoqueId == peca.EstoqueId);
+
+        if (foundPecaToEdit == null)
+        {
+          throw new InvalidOperationException("[Ultracar] - ERROR: failed to edit. part to edit was not found.");
+        }
+
+        // update parts in the current quote with info from request body
+        // NOTE: user won't be able to update sensitive info such as the part Id or its EstoqueId (stock Id)
+        foundPecaToEdit.NomePeca = peca.NomePeca;
+        foundPecaToEdit.Quantidade = peca.Quantidade;
+
+        // TODO: maybe handle name changes? 
+        // check in the Estoque table the new name belongs to a part in stock, if so add it to stock and remove the old one
+        // (this will need new methods, such as one to remove a single part from the quote...)
+
+        // handle stock changes
+        HandleStock(peca);
       }
 
       // save changes in the data base
       _context.SaveChanges();
 
-      // create dto to display the created quote
+      // generate dto with result
       OrcamentoDto result = new()
       {
-        Id = newOrcamentoBody.Id,
-        NumeracaoOrcamento = newOrcamentoBody.NumeracaoOrcamento,
-        NomeCliente = newOrcamentoBody.NomeCliente,
-        PlacaVeiculo = newOrcamentoBody.PlacaVeiculo,
-        Pecas = newOrcamentoBody.Pecas?.Select(peca => new PecaDto
+        Id = orcamentoToEdit.Id,
+        NumeracaoOrcamento = orcamentoToEdit.NumeracaoOrcamento,
+        NomeCliente = orcamentoToEdit.NomeCliente,
+        PlacaVeiculo = orcamentoToEdit.PlacaVeiculo,
+        Pecas = orcamentoToEdit.Pecas?.Select(peca => new PecaDto
         {
           Id = peca.Id,
           EstoqueId = peca.EstoqueId,
@@ -364,7 +329,109 @@ List<OrcamentoDto> orcamento = _context.Orcamentos
 
       return result;
     }
+    //
 
+    public InsertOrcamentoDto CreateOrcamentoInfo(Orcamento newOrcamentoInfoBody)
+    {
+      if (newOrcamentoInfoBody == null) 
+      {
+        throw new InvalidOperationException("[Ultracar] - ERROR: failed to create, body is empty.");
+      }
+
+      // populate current quote column with body content
+      _context.Orcamentos.Add(newOrcamentoInfoBody);
+
+      // save changes in the data base
+      _context.SaveChanges();
+
+      // create dto to display the created quote
+      InsertOrcamentoDto result = new()
+      {
+        Id = newOrcamentoInfoBody.Id,
+        NumeracaoOrcamento = newOrcamentoInfoBody.NumeracaoOrcamento,
+        NomeCliente = newOrcamentoInfoBody.NomeCliente,
+        PlacaVeiculo = newOrcamentoInfoBody.PlacaVeiculo,
+      };
+
+      return result;
+    }
+    public OrcamentoDto AddPecasInOrcamento(int id, List<Peca> pecasFromBody)
+    {
+     if (pecasFromBody == null) 
+      {
+        throw new InvalidOperationException("[Ultracar] - ERROR: failed to add, request body is empty.");
+      }
+
+      // find quote to add parts by its id
+      Orcamento? orcamentoToEdit = _context.Orcamentos
+      .Include(obj => obj.Pecas!)
+      .ThenInclude(obj => obj.Estoque)
+      .SingleOrDefault(orcament => orcament.Id == id);
+
+      if (orcamentoToEdit == null) 
+      {
+        throw new InvalidOperationException("[Ultracar] - ERROR: failed to edit, quote not found.");
+      }
+
+      if (orcamentoToEdit.Pecas == null)
+      {
+        throw new InvalidOperationException("[Ultracar] - ERROR: failed to access the part(s) in quote, 'Pecas' table is empty or null.");
+      }
+
+      foreach (Peca? peca in pecasFromBody)
+      {
+        if (peca == null)
+        {
+          throw new InvalidOperationException("[Ultracar] - ERROR: failed to access the part(s) in request body. parts array is empty or null.");
+        }
+
+        // check if part already exists somewhere else (if it's in another quote)
+        bool pecaExists = _context.Pecas.Any(part => part.Id == peca.Id);
+
+        // if it already exists, throw an error
+        if (pecaExists)
+        {
+          throw new InvalidOperationException($"[Ultracar] - ERROR: failed to add part. part with id: {peca.Id} already exists in another quote, please provide an unique id.");
+        }
+
+        // create a new instance
+        Peca pecaToAdd = new()
+        {
+          Id = peca.Id,
+          EstoqueId = peca.EstoqueId,
+          NomePeca = peca.NomePeca,
+          Quantidade = peca.Quantidade,
+        };
+
+        // add part in client's quote
+        orcamentoToEdit.Pecas.Add(peca);
+
+        // handle stock changes
+        HandleStock(peca);
+      }
+
+      // save changes in the data base
+      _context.SaveChanges();
+
+      // generate dto with result
+      OrcamentoDto result = new()
+      {
+        Id = orcamentoToEdit.Id,
+        NumeracaoOrcamento = orcamentoToEdit.NumeracaoOrcamento,
+        NomeCliente = orcamentoToEdit.NomeCliente,
+        PlacaVeiculo = orcamentoToEdit.PlacaVeiculo,
+        Pecas = orcamentoToEdit.Pecas?.Select(peca => new PecaDto
+        {
+          Id = peca.Id,
+          EstoqueId = peca.EstoqueId,
+          NomePeca = peca.NomePeca,
+          Quantidade = peca.Quantidade,
+          PecaEntregue = peca.PecaEntregue
+        }).ToList(),
+      };
+
+      return result;
+    }
     //
 
     public void RemoveOrcamento(int id)
