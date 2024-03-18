@@ -28,6 +28,10 @@ public class Peca
       if (Estoque == null || Estoque.TipoMovimentacao == ActionTypes.InStock)
       {
         return false;
+      } // return false in case the part is out of stock
+      else if (Estoque.TipoMovimentacao == ActionTypes.OutOfStock)
+      {
+        return false;
       }
 
       // otherwise its reserved and thus true

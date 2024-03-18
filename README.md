@@ -14,9 +14,9 @@ Precisa criar um sistema para automatizar e digitalizar processos seguindo as se
 * É importante que toda movimentação de estoque seja armazenada.
 ---
 
-### Documentação da API:
+## Documentação da API:
 
-[DOCUMENTACAO.md](/Repo/DOCUMENTACAO.md)
+[DOCUMENTACAO.md](DOCUMENTACAO.md)
 
 **Diagrama do banco de dados**:
 
