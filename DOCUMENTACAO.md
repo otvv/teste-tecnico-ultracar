@@ -25,8 +25,6 @@ The root endpoint _(usually this route is used to check if the API is running.)_
 [Ultracar] - API Running.
 ```
 ---
----
----
 
 ### ORCAMENTOS (/orcamentos)
 
