@@ -9,7 +9,7 @@ public enum ActionTypes : int
   OutOfStock,
 }
 
-public class Estoque // unidirectional relationship with Pecas table.
+public class Estoque // unidirectional relationship with Pecas table
 {
   [Key]
   public int Id { get; set; }
