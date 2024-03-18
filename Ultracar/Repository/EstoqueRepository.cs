@@ -36,7 +36,7 @@ namespace Ultracar.Repository
     public EstoqueDto GetPartById(int id)
     { 
       Estoque? part = _context.Estoque
-      .FirstOrDefault(stock => stock.Id == id);
+      .SingleOrDefault(stock => stock.Id == id);
 
       if (part == null) 
       {
@@ -104,7 +104,7 @@ namespace Ultracar.Repository
 
       // find part to edit by its part id inside the stock
       Estoque? updatedPart = _context.Estoque
-      .FirstOrDefault(part => part.Id == id);
+      .SingleOrDefault(part => part.Id == id);
 
       if (updatedPart == null) 
       {
@@ -115,6 +115,7 @@ namespace Ultracar.Repository
       _context.Estoque.Update(updatedPart);
 
       // edit part with data received from body
+      updatedPart.Id = partBody.Id;
       updatedPart.NomePeca = partBody.NomePeca;
       updatedPart.EstoquePeca = partBody.EstoquePeca;
       updatedPart.TipoMovimentacao = partBody.TipoMovimentacao;
@@ -190,10 +191,10 @@ namespace Ultracar.Repository
         throw new InvalidOperationException($"[Ultracar] - ERROR: part '{newPartBody.NomePeca}' already exists in the stock.");
       }
 
-      // only add parts in the stock if the quantity is specified
+      // in case the user adds a part with multiple quantities
       if (newPartBody.EstoquePeca > 0)
       {
-        // whenever a new part is added it will always be in stock
+        // whenever a new part is added it will be added to stock by default
         newPartBody.TipoMovimentacao = ActionTypes.InStock;
 
         // populate quote table with body content
@@ -213,12 +214,12 @@ namespace Ultracar.Repository
         
         return result;
       }
-      else // if the api user doesnt provide a valid quantity 
+      else // if the api user doesnt provide a valid quantity
       {
         // the api will assume that the user is trying to add one part to the stock 
         newPartBody.EstoquePeca = 1;
 
-        // whenever a new part is added it will always be in stock
+        // whenever a new part is added it will be added to stock by default
         newPartBody.TipoMovimentacao = ActionTypes.InStock;
 
         // populate quote table with body content
@@ -232,7 +233,7 @@ namespace Ultracar.Repository
         {
           Id = newPartBody.Id,
           NomePeca = newPartBody.NomePeca,
-          EstoquePeca = 1,
+          EstoquePeca = newPartBody.EstoquePeca,
           TipoMovimentacao = newPartBody.TipoMovimentacao,
         };
       }
@@ -241,18 +242,22 @@ namespace Ultracar.Repository
     {
       // find part to edit by its part id inside the stock
       Estoque? updatedPart = _context.Estoque
-      .FirstOrDefault(part => part.Id == id);
+      .SingleOrDefault(part => part.Id == id);
 
       if (updatedPart == null)
       {
         throw new InvalidOperationException("[Ultracar] - ERROR: failed to update, part not found.");
       }
 
-      // increase part stock quantity with data received from the request query
-      updatedPart.EstoquePeca += quantity;
+      // check if quantity to add is valid
+      if (quantity > 0)
+      {
+        // increase part stock quantity with data received from the request query
+        updatedPart.EstoquePeca += quantity;
 
-      // save changes in the data base
-      _context.SaveChanges();
+        // save changes in the data base
+        _context.SaveChanges();
+      }
 
       // create a simple dto to display the changes
       EstoqueDto result = new()
@@ -269,7 +274,7 @@ namespace Ultracar.Repository
     {
       // find part to edit by its part id inside the stock
       Estoque? updatedPart = _context.Estoque
-      .FirstOrDefault(part => part.Id == id);
+      .SingleOrDefault(part => part.Id == id);
 
       if (updatedPart == null)
       {
@@ -310,7 +315,7 @@ namespace Ultracar.Repository
     {
       // find part to remove by its id
       Estoque? partToRemove = _context.Estoque
-      .FirstOrDefault(part => part.Id == id);
+      .SingleOrDefault(part => part.Id == id);
 
       if (partToRemove == null) 
       {

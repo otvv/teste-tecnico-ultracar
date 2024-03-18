@@ -16,7 +16,7 @@ namespace Ultracar
 
       Estoque[] estoque =
       [
-        new() { NomePeca = "Peca1", EstoquePeca = 100, TipoMovimentacao = ActionTypes.InStock },
+        new() { NomePeca = "Peca1", EstoquePeca = 100, TipoMovimentacao = ActionTypes.Reserved },
         new() { NomePeca = "Peca2", EstoquePeca = 200, TipoMovimentacao = ActionTypes.Reserved },
         new() { NomePeca = "Peca3", EstoquePeca = 2, TipoMovimentacao = ActionTypes.Reserved },
         new() { NomePeca = "Peca4", EstoquePeca = 0, TipoMovimentacao = ActionTypes.OutOfStock },

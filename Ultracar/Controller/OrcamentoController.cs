@@ -32,7 +32,7 @@ namespace Ultracar.Controllers
     [HttpGet("{id}")]
     public IActionResult GetOrcamentoById(int id)
     {
-      OrcamentoDto? orcamento = _repository.GetOrcamentoById(id);
+      IEnumerable<OrcamentoDto>? orcamento = _repository.GetOrcamentoById(id);
 
       // if the specified quote table is empty or doesn't exist return a NotFound error.
       if (orcamento == null)
@@ -74,7 +74,7 @@ namespace Ultracar.Controllers
     [HttpGet("numero/{orcamentoNumber}")]
     public IActionResult GetOrcamentoByNumber(string orcamentoNumber)
     {
-      OrcamentoDto? orcamento = _repository.GetOrcamentoByNumber(orcamentoNumber);
+      IEnumerable<OrcamentoDto>? orcamento = _repository.GetOrcamentoByNumber(orcamentoNumber);
 
       // if the specified quote table is empty or doesn't exist return a NotFound error.
       if (orcamento == null)
