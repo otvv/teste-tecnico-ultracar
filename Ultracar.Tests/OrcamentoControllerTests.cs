@@ -69,7 +69,7 @@ public class OrcamentoControllerTests
 
     // assert
     Assert.NotNull(result); // check if what got returned is not null
-    Assert.Equal(200, result.StatusCode); // see if one Orcamento was returned
+    Assert.Equal(200, result.StatusCode);
     Assert.Equal(orcamentoDtoEnumerable, result.Value); // see if object returned is the same as the expected one
   }
 
@@ -84,9 +84,87 @@ public class OrcamentoControllerTests
     // act
     var result = _orcamentoController.GetOrcamentoById(mockedFailId) as NotFoundResult;
 
-    Console.WriteLine(result);
+    // assert
+    Assert.Null(result); // in theory if an Orcamento is not found, the result will always be null
+  }
+
+  [Fact]
+  public void GetOrcamentoByNameTest()
+  {
+    // arrange
+    string mockedName = "John";
+    List<OrcamentoDto> orcamentoDtoList =
+    [
+        new() { Id = 1, NumeracaoOrcamento = "111", NomeCliente = "John", PlacaVeiculo = "123ABC", Pecas = {} },
+    ];
+    IEnumerable<OrcamentoDto> orcamentoDtoEnumerable = orcamentoDtoList;
+    _mockOrcamentoRepository.Setup(repository => repository.GetOrcamentoByName(mockedName)).Returns(orcamentoDtoEnumerable);
+
+    // act
+    var result = _orcamentoController.GetOrcamentoByName(mockedName) as OkObjectResult; 
 
     // assert
-    Assert.Null(result); // in theory if a orcamento is not found, the result will always be null
+    Assert.NotNull(result); // check if what got returned is not null
+    Assert.Equal(200, result.StatusCode);
+    Assert.Equal(orcamentoDtoEnumerable, result.Value); // see if object returned is the same as the expected one
+  }
+
+  [Fact]
+  public void GetOrcamentoByNameFailTest()
+  {
+    // arrange
+    string mockedFailName = "";
+    List<OrcamentoDto> orcamentoDtoList =
+    [
+        new() { Id = 1, NumeracaoOrcamento = "111", NomeCliente = "John", PlacaVeiculo = "123ABC", Pecas = {} },
+    ];
+    IEnumerable<OrcamentoDto> orcamentoDtoEnumerable = orcamentoDtoList;
+    _mockOrcamentoRepository.Setup(repository => repository.GetOrcamentoByName(mockedFailName)).Returns(orcamentoDtoEnumerable);
+
+    // act
+    var result = _orcamentoController.GetOrcamentoByName(mockedFailName) as NotFoundResult;
+
+    // assert
+    Assert.Null(result); // in theory if an Orcamento is not found, the result will always be null
+  }
+
+  [Fact]
+  public void GetOrcamentoByLicensePlateTest()
+  {
+    // arrange
+    string mockedLicensePlate = "123ABC";
+    List<OrcamentoDto> orcamentoDtoList =
+    [
+        new() { Id = 1, NumeracaoOrcamento = "111", NomeCliente = "John", PlacaVeiculo = "123ABC", Pecas = {} },
+    ];
+    IEnumerable<OrcamentoDto> orcamentoDtoEnumerable = orcamentoDtoList;
+    _mockOrcamentoRepository.Setup(repository => repository.GetOrcamentoByLicensePlate(mockedLicensePlate)).Returns(orcamentoDtoEnumerable);
+
+    // act
+    var result = _orcamentoController.GetOrcamentoByLicensePlate(mockedLicensePlate) as OkObjectResult; 
+
+    // assert
+    Assert.NotNull(result); // check if what got returned is not null
+    Assert.Equal(200, result.StatusCode);
+    Assert.Equal(orcamentoDtoEnumerable, result.Value); // see if object returned is the same as the expected one
+  }
+
+  [Fact]
+  public void GetOrcamentoByLicensePlateFailTest()
+  {
+    // arrange
+    string mockedFailName = "XXXXXX";
+    List<OrcamentoDto> orcamentoDtoList =
+    [
+        new() { Id = 1, NumeracaoOrcamento = "111", NomeCliente = "John", PlacaVeiculo = "123ABC", Pecas = {} },
+    ];
+    IEnumerable<OrcamentoDto> orcamentoDtoEnumerable = orcamentoDtoList;
+    _mockOrcamentoRepository.Setup(repository => repository.GetOrcamentoByLicensePlate(mockedFailName)).Returns(orcamentoDtoEnumerable);
+
+    // act
+    var result = _orcamentoController.GetOrcamentoByName(mockedFailName) as NotFoundResult;
+
+    // assert
+    Assert.Null(result); // in theory if an Orcamento is not found, the result will always be null
   }
 }
