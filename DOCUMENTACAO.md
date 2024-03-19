@@ -291,7 +291,7 @@ This endpoint can only update the quote info, such as client's name, vehicle lic
 	}
 ```
 
-### UPDATE PART IN ORCAMENTO (/orcamentos/{id}/peca/update)
+### UPDATE PARTS IN ORCAMENTO (/orcamentos/{id}/peca/update)
 
 **Method type**: `POST`
 
@@ -307,7 +307,7 @@ If one or more parts are being update in a clients quote, it's info gets altered
 
 NOTE: _if 'pecaEntregue' is true it means that it's Reserved to one or multiple quotes, false otherwise_.
 
-NOTE: _You can't add new parts with this method, use the `AddPartInOrcamento` function for that._
+NOTE: _You can't add new parts with this method, use the _`AddPartsInOrcamento`_ function for that._
 
 **Example usage:**
 
@@ -325,7 +325,7 @@ NOTE: _You can't add new parts with this method, use the `AddPartInOrcamento` fu
 ]
 ```
 
-**Expected result**: `200: Ok`
+**Expected result**: `201: Created` _NOTE_: This return type will be changed later.
 
 ```json
 	{
@@ -345,7 +345,7 @@ NOTE: _You can't add new parts with this method, use the `AddPartInOrcamento` fu
 	}
 ```
 
-### CREATE ORCAMENTO INFO (/orcamentos/})
+### CREATE ORCAMENTO INFO (/orcamentos/)
 
 **Method type**: `POST`
 
@@ -370,19 +370,10 @@ If you want to add parts in a quote check the _AddPartsInOrcamento_ function doc
 	"numeracaoOrcamento": "66XDS9", // must be unique
 	"placaVeiculo": "XXX2157",
 	"nomeCliente": "Yan Ping",
-	"pecas": [
-		{
-			"id": 1, // not really required
-			"estoqueId": 3,
-			"nomePeca": "Peca3",
-			"quantidade": 1,
-			"pecaEntregue": true
-		}
-	]
 }
 ```
 
-### ADD PART IN ORCAMENTO (/orcamentos/{id}/peca/add)
+### ADD PARTS IN ORCAMENTO (/orcamentos/{id}/peca/add)
 
 **Method type**: `POST`
 

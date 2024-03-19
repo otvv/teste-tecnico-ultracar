@@ -256,7 +256,7 @@ namespace Ultracar.Repository
       return result;
     }
 
-    public OrcamentoDto UpdatePecasInOrcamento(int id, List<Peca> pecasToEditFromBody)
+    public OrcamentoDto UpdatePartsInOrcamento(int id, List<Peca> pecasToEditFromBody)
     {
       if (pecasToEditFromBody == null)
       {
@@ -355,7 +355,7 @@ namespace Ultracar.Repository
 
       return result;
     }
-    public OrcamentoDto AddPecasInOrcamento(int id, List<Peca> pecasFromBody)
+    public OrcamentoDto AddPartsInOrcamento(int id, List<Peca> pecasFromBody)
     {
      if (pecasFromBody == null) 
       {

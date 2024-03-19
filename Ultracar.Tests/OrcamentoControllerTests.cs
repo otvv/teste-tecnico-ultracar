@@ -267,10 +267,10 @@ public class OrcamentoControllerTests
         new() { EstoqueId = 1, NomePeca = "Peca Edited", Quantidade = 3 }
       ]
     };
-    _mockOrcamentoRepository.Setup(repository => repository.UpdatePecasInOrcamento(mockedId, It.IsAny<List<Peca>>())).Returns(mockedResult);
+    _mockOrcamentoRepository.Setup(repository => repository.UpdatePartsInOrcamento(mockedId, It.IsAny<List<Peca>>())).Returns(mockedResult);
 
     // act
-    var result = _orcamentoController.UpdatePecasInOrcamento(mockedId, orcamentoPecaEditBody) as CreatedResult;
+    var result = _orcamentoController.UpdatePartsInOrcamento(mockedId, orcamentoPecaEditBody) as CreatedResult;
 
     // assert
     Assert.NotNull(result); // check if the controller returns a valid result
@@ -302,7 +302,7 @@ public class OrcamentoControllerTests
   }
 
   [Fact]
-  public void AddPecasInOrcamentoTest()
+  public void AddPartsInOrcamentoTest()
   {
     // arrange
     int mockedId = 1;
@@ -322,10 +322,10 @@ public class OrcamentoControllerTests
         new() { EstoqueId = 2, NomePeca = "Peca Created", Quantidade = 4 }
       ]
     };
-    _mockOrcamentoRepository.Setup(repository => repository.AddPecasInOrcamento(mockedId, It.IsAny<List<Peca>>())).Returns(mockedResult);
+    _mockOrcamentoRepository.Setup(repository => repository.AddPartsInOrcamento(mockedId, It.IsAny<List<Peca>>())).Returns(mockedResult);
 
     // act
-    var result = _orcamentoController.AddPecasInOrcamento(mockedId, orcamentoPecaCreateBody) as CreatedResult;
+    var result = _orcamentoController.AddPartsInOrcamento(mockedId, orcamentoPecaCreateBody) as CreatedResult;
 
     // assert
     Assert.NotNull(result); // check if the controller returns a valid result
@@ -344,6 +344,6 @@ public class OrcamentoControllerTests
     var result = _orcamentoController.RemoveOrcamento(mockedId) as NotFoundResult;
 
     // assert
-    Assert.Null(result); // if Orcamento gets deleted succesfully, it should't return anything
+    Assert.Null(result); // if Orcamento gets deleted succesfully, it shouldn't return anything
   }
 }

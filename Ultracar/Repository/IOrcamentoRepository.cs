@@ -14,11 +14,11 @@ namespace Ultracar.Repository
 
     // UPDATE
     OrcamentoDto UpdateOrcamentoInfo(int id, Orcamento orcamentoInfoBody); // update info of a single quote by its id
-    OrcamentoDto UpdatePecasInOrcamento(int id, List<Peca> pecasToEditFromBody); // updates one or more parts in a client's quote by its id
+    OrcamentoDto UpdatePartsInOrcamento(int id, List<Peca> pecasToEditFromBody); // updates one or more parts in a client's quote by its id
 
     // CREATE
     InsertOrcamentoDto CreateOrcamentoInfo(Orcamento newOrcamentoInfoBody); // create initial quote info
-    OrcamentoDto AddPecasInOrcamento(int id, List<Peca> pecasFromBody); // adds one or more parts in a client's quote by its id
+    OrcamentoDto AddPartsInOrcamento(int id, List<Peca> pecasFromBody); // adds one or more parts in a client's quote by its id
 
     // DELETE
     void RemoveOrcamento(int id); // remove a quote by its id
