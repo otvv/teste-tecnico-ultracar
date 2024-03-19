@@ -115,7 +115,7 @@ namespace Ultracar.Controllers
       // edit quote with pecas from body
       OrcamentoDto orcamentoToEdit = _repository.UpdatePecasInOrcamento(id, pecasToEditFromBody);
 
-      // return created quote as result with status code 201
+      // return edited quote as result with status code 201
       return Created($"{id}/peca/update", orcamentoToEdit);
     }
 
