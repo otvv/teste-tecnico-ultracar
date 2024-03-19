@@ -4,7 +4,6 @@ using Ultracar.Controllers;
 using Ultracar.Repository;
 using Ultracar.Models;
 using Ultracar.Dto;
-using System.Data.Common;
 
 namespace Ultracar.Tests;
 
