@@ -38,8 +38,9 @@ _caso necessite autenticação_:
 * Entity Framework como ORM
 * PostgresSQL com Docker
 * .NET Core 8
-* DBeaver para visualizar e realizar o dump do banco de dados.
-* Insomnia para visualizar e realizar queries na API.
+* DBeaver para visualizar e realizar o dump do banco de dados
+* Insomnia para visualizar e realizar queries na API
+* XUnit com Moq para os testes unitarios parciais
 
 **Praticas utilizadas**:
 
